@@ -9,10 +9,35 @@ Usage:
 """
 
 import os
-from dotenv import load_dotenv
-from google_auth_oauthlib.flow import InstalledAppFlow
+import sys
+import subprocess
 
-load_dotenv()
+# Configurar soporte para caracteres UTF-8 en terminal Windows
+if sys.platform == "win32":
+    try:
+        sys.stdout.reconfigure(encoding="utf-8")
+        sys.stderr.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
+
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass
+
+try:
+    from google_auth_oauthlib.flow import InstalledAppFlow
+except ImportError:
+    print("\n📦 Instalando librería necesaria para Google OAuth (google-auth-oauthlib)...")
+    try:
+        subprocess.check_call([sys.executable, "-m", "pip", "install", "google-auth-oauthlib", "python-dotenv"])
+        from google_auth_oauthlib.flow import InstalledAppFlow
+        print("✅ Librería instalada correctamente.\n")
+    except Exception as e:
+        print(f"\n❌ No se pudo instalar automáticamente: {e}")
+        print("Por favor ejecuta manualmente: pip install google-auth-oauthlib python-dotenv")
+        sys.exit(1)
 
 SCOPES = [
     "https://www.googleapis.com/auth/youtube.upload",
