@@ -1,5 +1,45 @@
 [
   {
+    "id": "vid_20261009_022251",
+    "title": "El Nuevo Algoritmo que está Cambiando Todo en 2026 ⚡",
+    "hook": "Si no entiendes cómo funcionan los modelos de razonamiento, te vas a quedar atrás.",
+    "niche": "Tech & AI",
+    "created_at": "2026-10-09T02:23:04.808092Z",
+    "duration": 35.0,
+    "status": "published",
+    "tags": [
+      "Shorts",
+      "IA",
+      "FuturoTech",
+      "Innovacion",
+      "Algoritmos"
+    ],
+    "youtube": {
+      "video_id": "3iN93no8xZ4",
+      "url": "https://youtube.com/shorts/3iN93no8xZ4",
+      "status": "published",
+      "views": 0,
+      "likes": 0,
+      "comments": 0
+    },
+    "facebook": {
+      "video_id": null,
+      "url": null,
+      "status": "pending_setup",
+      "views": 0,
+      "likes": 0,
+      "comments": 0,
+      "shares": 0
+    },
+    "metrics_summary": {
+      "total_views": 0,
+      "total_likes": 0,
+      "total_comments": 0,
+      "total_shares": 0,
+      "engagement_rate": 0.0
+    }
+  },
+  {
     "id": "vid_20261009_020528",
     "title": "El Nuevo Algoritmo que está Cambiando Todo en 2026 ⚡",
     "hook": "Si no entiendes cómo funcionan los modelos de razonamiento, te vas a quedar atrás.",
