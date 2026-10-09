@@ -100,22 +100,16 @@ def run_publish_flow(dry_run: bool = False, topic: str = None, count: int = 3) -
 
         # Step 1: Obtain a fresh, non-repeated funny clip
         clip_data = clip_manager.get_next_funny_clip()
-        if clip_data:
-            logger.info(f"1/4: Clip de comedia asignado: '{clip_data.get('title', 'Clip')}' (ID: {clip_data.get('id')})")
-            clip_path = clip_manager.download_clip(clip_data)
-        else:
-            logger.info("1/4: Sin clip externo asignado. Generando escena cómica animada con locución neural...")
-            clip_path = None
+        clip_title = clip_data.get('title', 'Clip')
+        clip_id = clip_data.get('id', 'clip')
+        logger.info(f"1/4: Clip de comedia asignado: '{clip_title}' (ID: {clip_id}, Fuente: {clip_data.get('source', 'auto')})")
+        clip_path = clip_manager.download_clip(clip_data)
 
         # Step 2: Render funny 9:16 vertical video with meme overlays and voiceover
         timestamp_str = datetime.now().strftime("%Y%m%d_%H%M%S")
         video_filename = f"funny_{timestamp_str}_{idx + 1}.mp4"
-        logger.info(f"2/4: Renderizando Short cómico 9:16 ({video_filename})...")
-
-        if clip_path:
-            video_path = run_funny_video_generation_sync(script, clip_path, video_filename)
-        else:
-            video_path = run_video_generation_sync(script, video_filename)
+        logger.info(f"2/4: Renderizando Short cómico 9:16 con clip real ({video_filename})...")
+        video_path = run_funny_video_generation_sync(script, clip_path, video_filename)
 
         # Step 3: Distribute to YouTube Shorts
         logger.info("3/4: Publicando en YouTube Shorts...")

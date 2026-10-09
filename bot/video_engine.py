@@ -18,14 +18,28 @@ import logging
 from typing import Dict, List, Tuple, Optional
 try:
     import numpy as np
-    from PIL import Image, ImageDraw, ImageFont
+    from PIL import Image, ImageDraw, ImageFont, ImageFilter
+    # Compatibility fix for Pillow 10+ where Image.ANTIALIAS was deprecated/removed
+    if hasattr(Image, "Resampling") and not hasattr(Image, "ANTIALIAS"):
+        Image.ANTIALIAS = Image.Resampling.LANCZOS
     PIL_AVAILABLE = True
 except ImportError:
     Image = None
     ImageDraw = None
     ImageFont = None
+    ImageFilter = None
     np = None
     PIL_AVAILABLE = False
+
+# Ensure imageio-ffmpeg binaries are in PATH
+try:
+    import imageio_ffmpeg
+    ffmpeg_exe = imageio_ffmpeg.get_ffmpeg_exe()
+    ffmpeg_dir = os.path.dirname(ffmpeg_exe)
+    if ffmpeg_dir not in os.environ.get("PATH", ""):
+        os.environ["PATH"] = ffmpeg_dir + os.pathsep + os.environ.get("PATH", "")
+except Exception:
+    pass
 
 # MoviePy imports
 try:
@@ -34,7 +48,11 @@ try:
         ImageClip,
         VideoFileClip,
         CompositeVideoClip,
-        concatenate_videoclips
+        CompositeAudioClip,
+        concatenate_videoclips,
+        concatenate_audioclips,
+        vfx,
+        afx
     )
     MOVIEPY_AVAILABLE = True
 except ImportError:
@@ -42,7 +60,11 @@ except ImportError:
     ImageClip = None
     VideoFileClip = None
     CompositeVideoClip = None
+    CompositeAudioClip = None
     concatenate_videoclips = None
+    concatenate_audioclips = None
+    vfx = None
+    afx = None
     MOVIEPY_AVAILABLE = False
 
 logger = logging.getLogger("VideoEngine")
@@ -497,6 +519,8 @@ class VideoEngine:
             fps=self.fps,
             codec="libx264",
             audio_codec="aac",
+            preset="ultrafast",
+            threads=4,
             temp_audiofile=os.path.join(self.output_dir, "temp-audio.m4a"),
             remove_temp=True,
             verbose=False,
@@ -510,45 +534,60 @@ class VideoEngine:
     def render_meme_overlays(self, hook: str, cta: str) -> Tuple[np.ndarray, np.ndarray]:
         """
         Renders top meme header card and bottom subtitle punchline card as transparent RGBA overlays.
+        Ultra-modern viral TikTok/Shorts styling with gold accents and high-contrast typography.
         """
-        # 1. Top Meme Header (1080 x 480)
-        top_img = Image.new("RGBA", (self.width, 480), (11, 15, 25, 245))
+        # 1. Top Meme Header (1080 x 440)
+        top_img = Image.new("RGBA", (self.width, 440), (0, 0, 0, 0))
         top_draw = ImageDraw.Draw(top_img)
 
-        # Progress bar line at top
-        top_draw.rectangle([(0, 0), (self.width, 12)], fill=(250, 204, 21, 255))
+        # Progress / accent line at top
+        top_draw.rectangle([(0, 0), (self.width, 10)], fill=(250, 204, 21, 255))
 
-        # Meme Header Card
-        top_draw.rounded_rectangle([(40, 40), (self.width - 40, 440)], radius=30, fill=(24, 30, 46, 230), outline=(250, 204, 21, 200), width=3)
-        
-        hook_font = self._get_font(52, bold=True)
-        wrapped_hook = self._wrap_text(hook, hook_font, self.width - 160, top_draw)
-        
-        y_text = 80
-        for line in wrapped_hook[:4]:
+        # Meme Header Card with glassmorphism feel
+        top_draw.rounded_rectangle(
+            [(30, 30), (self.width - 30, 410)],
+            radius=26,
+            fill=(15, 23, 42, 235),
+            outline=(250, 204, 21, 220),
+            width=3
+        )
+
+        hook_font = self._get_font(48, bold=True)
+        wrapped_hook = self._wrap_text(hook, hook_font, self.width - 140, top_draw)
+
+        y_text = 65
+        for idx, line in enumerate(wrapped_hook[:4]):
             bbox = top_draw.textbbox((0, 0), line, font=hook_font)
             lw = bbox[2] - bbox[0]
+            # First line in bright white, second line in vibrant yellow
+            fill = (250, 204, 21) if idx == 1 else (255, 255, 255)
             self._draw_text_with_outline(
                 top_draw,
                 line,
                 ((self.width - lw) // 2, y_text),
                 hook_font,
-                fill_color=(255, 255, 255),
+                fill_color=fill,
                 outline_color=(0, 0, 0),
                 outline_width=4
             )
-            y_text += 80
+            y_text += 78
 
-        # 2. Bottom CTA Punchline (1080 x 360)
-        bot_img = Image.new("RGBA", (self.width, 360), (11, 15, 25, 245))
+        # 2. Bottom CTA Punchline & Subtitle Card (1080 x 360)
+        bot_img = Image.new("RGBA", (self.width, 360), (0, 0, 0, 0))
         bot_draw = ImageDraw.Draw(bot_img)
 
-        bot_draw.rounded_rectangle([(50, 30), (self.width - 50, 310)], radius=30, fill=(17, 24, 39, 230), outline=(59, 130, 246, 180), width=3)
-        
-        cta_font = self._get_font(44, bold=True)
-        wrapped_cta = self._wrap_text(cta, cta_font, self.width - 160, bot_draw)
-        
-        y_cta = 70
+        bot_draw.rounded_rectangle(
+            [(40, 25), (self.width - 40, 315)],
+            radius=26,
+            fill=(15, 23, 42, 230),
+            outline=(59, 130, 246, 180),
+            width=3
+        )
+
+        cta_font = self._get_font(42, bold=True)
+        wrapped_cta = self._wrap_text(cta, cta_font, self.width - 140, bot_draw)
+
+        y_cta = 55
         for line in wrapped_cta[:2]:
             bbox = bot_draw.textbbox((0, 0), line, font=cta_font)
             lw = bbox[2] - bbox[0]
@@ -563,23 +602,33 @@ class VideoEngine:
             )
             y_cta += 65
 
-        # Footer branding
-        footer_font = self._get_font(30, bold=False)
-        bot_draw.text((self.width // 2 - 180, 260), "❤️ Dale like | @humor_shorts", font=footer_font, fill=(148, 163, 184))
+        # Footer Engagement Pill
+        pill_font = self._get_font(32, bold=True)
+        pill_text = "❤️ DALE LIKE & COMPARTE 😂"
+        p_bbox = bot_draw.textbbox((0, 0), pill_text, font=pill_font)
+        pw = p_bbox[2] - p_bbox[0] + 60
+        ph = p_bbox[3] - p_bbox[1] + 24
+        px = (self.width - pw) // 2
+        py = max(y_cta + 10, 210)
+        bot_draw.rounded_rectangle([(px, py), (px + pw, py + ph)], radius=20, fill=(225, 29, 72, 230), outline=(255, 255, 255, 180), width=2)
+        bot_draw.text((px + 30, py + 8), pill_text, font=pill_font, fill=(255, 255, 255))
 
         return np.array(top_img), np.array(bot_img)
 
     async def generate_funny_video(self, script_data: Dict[str, Any], clip_path: Optional[str], output_filename: str) -> str:
         """
-        Orchestrates 9:16 comedy short with actual funny clip, top meme header,
-        and synchronized voiceover narration.
+        Orchestrates professional 9:16 comedy short:
+        - Real funny video clip with blurred ambient background.
+        - Synchronized neural voiceover narration.
+        - Preserves funny original audio sounds (ducked to 35%) alongside voiceover.
+        - Top meme hook header & bottom punchline overlays.
         """
         output_filepath = os.path.join(self.output_dir, output_filename)
         audio_filepath = os.path.join(self.output_dir, f"{os.path.splitext(output_filename)[0]}_voice.mp3")
 
         # Fallback simulation if dependencies are missing in current environment
         if not MOVIEPY_AVAILABLE or not PIL_AVAILABLE:
-            logger.warning("MoviePy/Pillow missing locally. Creating simulated MP4 for verification.")
+            logger.warning("MoviePy/Pillow missing locally. Creating simulated MP4.")
             os.makedirs(self.output_dir, exist_ok=True)
             with open(output_filepath, "wb") as f:
                 f.write(b"\x00\x00\x00\x1cftypisom\x00\x00\x02\x00isomiso2mp41\x00\x00\x00\x08free")
@@ -588,64 +637,89 @@ class VideoEngine:
         # 1. Synthesize voiceover
         speech_text = script_data.get("full_speech", script_data.get("hook", ""))
         audio_duration = await self._generate_audio_tts(speech_text, audio_filepath)
-        target_duration = max(min(audio_duration, 45.0), 12.0)
+        target_duration = max(min(audio_duration, 45.0), 10.0)
 
-        # 2. Prepare funny background video
+        # 2. Guarantee a real funny clip (never allow None or invalid file)
         has_valid_clip = clip_path and os.path.exists(clip_path) and os.path.getsize(clip_path) > 10000
+        if not has_valid_clip:
+            local_dir = "assets/clips"
+            if os.path.exists(local_dir):
+                candidates = [
+                    os.path.join(local_dir, f) for f in os.listdir(local_dir)
+                    if f.lower().endswith((".mp4", ".webm", ".mkv", ".mov"))
+                    and os.path.getsize(os.path.join(local_dir, f)) > 10000
+                ]
+                if candidates:
+                    clip_path = random.choice(candidates)
+                    has_valid_clip = True
 
-        if has_valid_clip and VideoFileClip:
-            try:
-                raw_clip = VideoFileClip(clip_path)
-                # Trim or subclip to duration
-                if raw_clip.duration > target_duration:
-                    raw_clip = raw_clip.subclip(0, target_duration)
-                else:
-                    target_duration = min(raw_clip.duration, target_duration)
+        raw_clip = VideoFileClip(clip_path)
 
-                # Resize to fit 1080 width
-                resized_clip = raw_clip.resize(width=self.width)
-                
-                # Dark background canvas (1080x1920)
-                bg_img = Image.new("RGB", (self.width, self.height), (15, 17, 23))
-                bg_clip = ImageClip(np.array(bg_img)).set_duration(target_duration)
+        # 3. Extract and prepare audio track
+        original_audio = raw_clip.audio
+        raw_clip = raw_clip.without_audio()
 
-                # Center the funny video vertically
-                y_pos = max((self.height - resized_clip.h) // 2, 420)
-                placed_clip = resized_clip.set_position(("center", y_pos)).set_duration(target_duration)
-
-                # Overlays
-                top_arr, bot_arr = self.render_meme_overlays(
-                    hook=script_data.get("hook", ""),
-                    cta=script_data.get("cta", "Comenta y Comparte 😂")
-                )
-                top_clip = ImageClip(top_arr).set_duration(target_duration).set_position(("center", 0))
-                bot_clip = ImageClip(bot_arr).set_duration(target_duration).set_position(("center", self.height - 360))
-
-                final_video = CompositeVideoClip([bg_clip, placed_clip, top_clip, bot_clip], size=(self.width, self.height))
-
-            except Exception as e:
-                logger.warning(f"Error compositing clip: {e}. Falling back to dynamic comedy slides.")
-                return await self.generate_video(script_data, output_filename)
+        # Match video duration to narration
+        # If the clip is shorter than narration, loop seamlessly so audio isn't cut off
+        repeats = int(math.ceil(target_duration / max(raw_clip.duration, 0.1))) + 1
+        if raw_clip.duration < target_duration:
+            raw_clip = concatenate_videoclips([raw_clip] * repeats).subclip(0, target_duration)
         else:
-            # Fallback to dynamic scenes
-            return await self.generate_video(script_data, output_filename)
+            raw_clip = raw_clip.subclip(0, target_duration)
 
-        # Attach voice audio
-        if os.path.exists(audio_filepath):
+        # 4. Create blurred/zoomed ambient background (TikTok/Reels style)
+        bg_clip = raw_clip.resize(height=self.height)
+        if bg_clip.w > self.width:
+            bg_clip = bg_clip.crop(x_center=bg_clip.w / 2, width=self.width)
+        dark_overlay = ImageClip(np.zeros((self.height, self.width, 3), dtype=np.uint8) + 16).set_duration(target_duration).set_opacity(0.65)
+        bg_composite = CompositeVideoClip([bg_clip, dark_overlay], size=(self.width, self.height)).without_audio()
+
+        # 5. Position centered foreground video
+        aspect_ratio = raw_clip.w / max(raw_clip.h, 1)
+        if aspect_ratio < 0.65:
+            # Already vertical 9:16
+            fg_clip = raw_clip.resize(width=self.width).set_position(("center", "center"))
+        else:
+            fg_w = min(1040, self.width - 30)
+            fg_clip = raw_clip.resize(width=fg_w)
+            y_pos = max((self.height - fg_clip.h) // 2, 430)
+            fg_clip = fg_clip.set_position(("center", y_pos))
+
+        # 6. Overlays: Top Meme Hook Header & Bottom Punchline Subtitle
+        top_arr, bot_arr = self.render_meme_overlays(
+            hook=script_data.get("hook", ""),
+            cta=script_data.get("cta", "Comenta y Comparte 😂")
+        )
+        top_clip = ImageClip(top_arr).set_duration(target_duration).set_position(("center", 0))
+        bot_clip = ImageClip(bot_arr).set_duration(target_duration).set_position(("center", self.height - 350))
+
+        final_video = CompositeVideoClip([bg_composite, fg_clip, top_clip, bot_clip], size=(self.width, self.height)).set_duration(target_duration)
+
+        # 7. Audio Mixing (Original funny video audio + Neural voiceover)
+        voice_clip = AudioFileClip(audio_filepath) if os.path.exists(audio_filepath) else None
+        if original_audio is not None and voice_clip is not None:
             try:
-                audio_clip = AudioFileClip(audio_filepath)
-                if audio_clip.duration > target_duration:
-                    audio_clip = audio_clip.subclip(0, target_duration)
-                final_video = final_video.set_audio(audio_clip)
+                clip_audio = original_audio.volumex(0.35)
+                if clip_audio.duration < target_duration:
+                    clip_audio = concatenate_audioclips([clip_audio] * repeats)
+                clip_audio = clip_audio.subclip(0, target_duration)
+                combined_audio = CompositeAudioClip([clip_audio, voice_clip.volumex(1.0)]).set_duration(target_duration)
+                final_video = final_video.set_audio(combined_audio)
             except Exception as e:
-                logger.warning(f"Audio attachment notice: {e}")
+                logger.warning(f"Audio mix notice: {e}. Attaching voice only.")
+                final_video = final_video.set_audio(voice_clip)
+        elif voice_clip is not None:
+            final_video = final_video.set_audio(voice_clip)
 
+        # 8. Export professional vertical video
         logger.info(f"Rendering funny Short MP4 to {output_filepath}...")
         final_video.write_videofile(
             output_filepath,
             fps=self.fps,
             codec="libx264",
             audio_codec="aac",
+            preset="ultrafast",
+            threads=4,
             temp_audiofile=os.path.join(self.output_dir, "temp-audio.m4a"),
             remove_temp=True,
             verbose=False,
@@ -653,7 +727,11 @@ class VideoEngine:
         )
 
         final_video.close()
-        logger.info(f"Funny Short created at: {output_filepath}")
+        raw_clip.close()
+        if voice_clip:
+            voice_clip.close()
+
+        logger.info(f"Funny Short created successfully at: {output_filepath}")
         return output_filepath
 
 

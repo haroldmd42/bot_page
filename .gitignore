@@ -12,10 +12,7 @@ venv/
 env/
 
 # Output videos and temporary render assets
-output/*.mp4
-output/*.mp3
-output/*.wav
-output/*.m4a
+output/
 *.mp4
 *.mp3
 image.png
