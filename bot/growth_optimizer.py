@@ -27,78 +27,79 @@ class GrowthOptimizer:
         self.metrics: Dict[str, Any] = self._load_json(metrics_file, default={})
 
         # Comedic categories and angle templates
+        # Comedic categories and angle templates (focused on real action, fails, and viral humor)
         self.comedy_themes = [
             {
-                "category": "funny_animals",
-                "niche": "Animales & Mascotas",
+                "category": "viral_fails",
+                "niche": "Fails Épicos & Instant Regret",
                 "hooks": [
-                    "POV: Tu gato cuando te atrasas 3 minutos en servirle la comida 💀",
-                    "El perro que entendió todo sobre la vida en 5 segundos 😂",
-                    "Dramatismo nivel: Este gato después de un susto absurdo 🐱🎭",
-                    "Nadie: Absolutamente nadie: Mi perro cuando escucha una bolsa abrirse 🐶⚡",
-                    "Prueba irrefutable de que los gatos no son de este planeta 🛸😂"
-                ],
-                "voiceovers": [
-                    "Mira la cara de absoluta indignación. No hay perdón, no hay olvido. Solo juicio silencioso.",
-                    "Intentó mantener la dignidad, pero el suelo tenía otros planes. Diez de diez en ejecución.",
-                    "Cuando crees que tienes todo bajo control y de pronto... la física decide no colaborar.",
-                    "La concentración era máxima. La confianza, indestructible. El resultado... catastróficamente gracioso.",
-                    "Ese momento exacto donde se da cuenta de que cometió un grave error de cálculo."
-                ],
-                "punchlines": [
-                    "¿Quién más tiene una mascota así de dramática? 😂",
-                    "Etiqueta a tu amigo que reacciona exactamente igual 🐶",
-                    "Dime que no soy el único que no puede parar de reír 💀"
-                ],
-                "tags": ["Shorts", "Humor", "AnimalesGraciosos", "Gatos", "Perros", "Memes", "Risas"]
-            },
-            {
-                "category": "relatable_fails",
-                "niche": "Fails Cotidianos",
-                "hooks": [
-                    "POV: Yo intentando ser productivo un lunes a las 8 AM 💀",
+                    "Segundos antes de una tragedia cómica 😂",
+                    "Cuando la gravedad decide arruinarte el día 💀",
                     "Nivel de confianza: 1000%. Nivel de habilidad: 0% 😂",
-                    "Dime que tienes mala suerte sin decirme que tienes mala suerte... 🤡",
-                    "Cuando dices 'tranquilo, yo sé exactamente lo que hago' 😭💥",
-                    "Mi última neurona intentando sobrevivir el día de hoy 🧠⚡"
+                    "Dime que te salió mal sin decirme que te salió mal 😭",
+                    "Cuando dices: tranquilo, yo sé exactamente lo que hago 💥"
                 ],
                 "voiceovers": [
-                    "Todo iba según el plan hasta que el universo decidió darle una lección de humildad.",
-                    "No se puede culpar al esfuerzo, pero el resultado merece un premio al intento más torpe del año.",
-                    "Segundos antes de la tragedia. La sonrisa todavía en el rostro. Inocencia pura.",
-                    "Si alguna vez te sientes torpe, recuerda que este video existe para hacerte sentir mejor.",
-                    "La gravedad nunca descansa, y en este momento decidió cobrar venganza personal."
+                    "Todo iba de maravilla hasta que la física y las malas decisiones decidieron aliarse.",
+                    "Miren la seguridad con la que empezó. Esa confianza duró exactamente tres segundos.",
+                    "No se puede culpar la intención, pero la ejecución merece un trofeo al fail del año.",
+                    "El momento exacto donde el cerebro procesa que el plan falló miserablemente.",
+                    "Si pensabas que tu día iba mal, agradece no haber estado en sus zapatos."
                 ],
                 "punchlines": [
-                    "¿Te ha pasado algo así? Cuéntalo en comentarios 😂👇",
-                    "Comparte con esa persona que siempre es un desastre andante 💀",
-                    "Dale like si te dolió hasta a ti de solo verlo 😭"
+                    "Dime en comentarios si te dolió hasta a ti de solo verlo 😂",
+                    "Comparte con tu amigo que siempre tiene esta misma suerte 💀",
+                    "Califica del uno al diez este aterrizaje forzoso 👇"
                 ],
-                "tags": ["Shorts", "Fails", "Comedia", "Risas", "MalaSuerte", "HumorViral", "Relatable"]
+                "tags": ["Shorts", "Fails", "HumorViral", "InstantRegret", "Comedia", "Risas", "Meme"]
             },
             {
-                "category": "unexpected_comedy",
-                "niche": "Situaciones Absurdas",
+                "category": "chaotic_pets",
+                "niche": "Mascotas Caóticas & Bloopers",
                 "hooks": [
-                    "El plot twist más inesperado que verás en todo tu día 😂",
-                    "¿Por qué los hombres vivimos menos? Ejemplo número 47 💀",
-                    "Cuando el plan B es 100 veces peor que el plan A 🤡",
-                    "La tranquilidad duró exactamente 2 segundos y medio ⏳💥",
-                    "No puedo con este nivel de caos en tan poco tiempo 😭"
+                    "Cuando tu perro activa el modo turbo y fallan los frenos 🐶⚡",
+                    "El gato que calculó mal la trayectoria por tres metros 🐱✈️",
+                    "Prueba de que a los animales también se les apaga el cerebro 😂",
+                    "Mi mascota viviendo en su propia dimensión paralela 🛸😂",
+                    "Ese momento de pánico cuando el salto sale terriblemente mal 💀"
                 ],
                 "voiceovers": [
-                    "Pensó que nadie lo estaba grabando. El destino tenía otros planes y una cámara en alta definición.",
-                    "Hay malas ideas, peores ideas, y luego está esta genialidad absoluta que salió como debía salir.",
-                    "Miren ese instante de duda. Supo que no debía hacerlo, y aún así, la curiosidad ganó.",
-                    "El verdadero significado de 'espera lo inesperado'. Nadie en la sala estaba preparado para esto.",
-                    "Un aplauso para este genio incomprendido que desafió la lógica y perdió con estilo."
+                    "La aceleración fue digna de Fórmula 1, pero olvidó instalar los frenos de emergencia.",
+                    "Ese salto tenía un noventa por ciento de fe y un cero por ciento de cálculo.",
+                    "Miren la cara de sorpresa cuando la física se niega a colaborar con sus acrobacias.",
+                    "Intentó fingir que nada pasó, pero la dignidad ya se había quedado en el suelo.",
+                    "El verdadero significado de actuar primero y pensar después."
                 ],
                 "punchlines": [
-                    "Comenta del 1 al 10 qué tan épico fue el remate 😂",
-                    "Sígueme para tu dosis diaria de risas sin sentido 🚀",
+                    "¿Quién más tiene una mascota así de loquita? 😂",
+                    "Etiqueta al dueño de una mascota que hace exactamente esto 🐶",
+                    "No puedo parar de reír con ese final épico 💀"
+                ],
+                "tags": ["Shorts", "MascotasGraciosas", "Animales", "PerrosChistosos", "GatosLocos", "Humor"]
+            },
+            {
+                "category": "instant_karma",
+                "niche": "Karma Instantáneo & Risas",
+                "hooks": [
+                    "El karma instantáneo más rápido de la historia ⚡😂",
+                    "Cuando el karma te cobra la factura en dos segundos 💀",
+                    "El plot twist que absolutamente nadie vio venir 🍿💥",
+                    "Por qué los hombres vivimos menos, prueba irrefutable 🤡",
+                    "Cuando intentas hacerte el valiente frente a todos y pasa esto 😭"
+                ],
+                "voiceovers": [
+                    "El universo no suele apresurarse, pero hoy decidió dar una lección express en tiempo récord.",
+                    "Se sentía el rey del mundo hasta que el destino le recordó quién manda aquí.",
+                    "Un aplauso de pie para esta genialidad que no tenía ninguna posibilidad de salir bien.",
+                    "Ese instante de duda antes del desastre. Sabía que no debía hacerlo, y aún así lo intentó.",
+                    "El remate perfecto que ni el mejor guionista de comedia pudo haber planeado."
+                ],
+                "punchlines": [
+                    "Comenta del uno al diez qué tan merecido fue ese karma 😂",
+                    "Comparte si no pudiste contener la risa 🚀",
                     "¿Esperabas ese final o te tomó por sorpresa? 💀"
                 ],
-                "tags": ["Shorts", "ComediaViral", "Memes", "PlotTwist", "HumorLatino", "RisasMil"]
+                "tags": ["Shorts", "KarmaInstantaneo", "ComediaViral", "PlotTwist", "HumorLatino", "RisasMil"]
             }
         ]
 
@@ -111,10 +112,28 @@ class GrowthOptimizer:
                 return default
         return default
 
+    def _clean_for_speech(self, text: str) -> str:
+        """Strips emojis, hashtags, and formatting so spoken audio is clean natural narration."""
+        import re
+        import unicodedata
+        if not text:
+            return ""
+        text = re.sub(r'#\w+', '', text)
+        text = re.sub(r'\bPOV:\s*', 'Punto de vista: ', text, flags=re.IGNORECASE)
+        # Unicode emoji strip
+        emoji_pattern = re.compile(r'[\U00010000-\U0010ffff\u2600-\u27bf\u2300-\u23ff\ufe0f\u200d]+')
+        text = emoji_pattern.sub('', text)
+        cleaned_chars = [ch for ch in text if unicodedata.category(ch) not in ('So', 'Sk')]
+        text = "".join(cleaned_chars)
+        text = re.sub(r'[\~\|\_\=\+\{\}\[\]\<\>\*\^]', ' ', text)
+        text = re.sub(r'\s+', ' ', text)
+        return text.strip()
+
     def generate_batch_scripts(self, count: int = 3, custom_topic: Optional[str] = None) -> List[Dict[str, Any]]:
         """
         Generates a batch of distinct funny scripts (e.g. 3 unique videos per run).
         Ensures diverse comedic categories and unique hooks.
+        Spoken audio is 100% clean Spanish narration without reciting emojis or tags aloud.
         """
         scripts = []
         recent_titles = [v.get("title", "") for v in self.history[:10]]
@@ -136,9 +155,12 @@ class GrowthOptimizer:
             title = hook
             if custom_topic and i == 0:
                 title = f"{custom_topic} 😂 #Shorts"
-                hook = f"POV: {custom_topic} 💀"
+                hook = f"Cuando {custom_topic} sale terriblemente gracioso 😂"
 
-            full_speech = f"{hook} {voiceover} {punchline}"
+            # Clean audio speech narration: natural spoken commentary
+            clean_hook = self._clean_for_speech(hook)
+            clean_punchline = self._clean_for_speech(punchline)
+            full_speech = f"{clean_hook}. {voiceover} {clean_punchline}"
 
             scripts.append({
                 "category": theme["category"],
@@ -148,7 +170,7 @@ class GrowthOptimizer:
                 "voiceover": voiceover,
                 "points": [
                     voiceover,
-                    f"Situación: {hook}",
+                    f"Situación: {clean_hook}",
                     punchline
                 ],
                 "cta": punchline,

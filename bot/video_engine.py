@@ -12,10 +12,12 @@ from __future__ import annotations
 
 import asyncio
 import os
+import re
+import unicodedata
 import math
 import random
 import logging
-from typing import Dict, List, Tuple, Optional
+from typing import Dict, List, Tuple, Optional, Any
 try:
     import numpy as np
     from PIL import Image, ImageDraw, ImageFont, ImageFilter
@@ -105,14 +107,84 @@ class VideoEngine:
         except Exception:
             return None
 
+    def _clean_speech_text(self, text: str) -> str:
+        """
+        Cleans text for neural TTS so it speaks 100% natural conversational Spanish:
+        - Removes all emojis, icons, and pictographic symbols so Edge-TTS never pronounces them aloud.
+        - Strips hashtags (#Shorts, #Humor, #Viral).
+        - Cleans prefixes like 'POV:', 'Nadie:', 'Nadie, absolutamente nadie:'.
+        - Removes special formatting characters and punctuation that TTS pronounces literally.
+        - Preserves clean, natural conversational flow.
+        """
+        if not text:
+            return ""
+
+        # 1. Strip URLs and mentions
+        text = re.sub(r'https?://\S+', '', text)
+        text = re.sub(r'@\w+', '', text)
+
+        # 2. Strip hashtags (e.g. #Shorts, #Humor, #Viral)
+        text = re.sub(r'#\w+', '', text)
+
+        # 3. Clean internet meme labels that sound robotic when read out
+        text = re.sub(r'\bPOV:\s*', 'Punto de vista: ', text, flags=re.IGNORECASE)
+        text = re.sub(r'\bNadie:\s*Absolutamente nadie:\s*', 'Nadie, absolutamente nadie: ', text, flags=re.IGNORECASE)
+
+        # 4. Remove all emojis and pictographs completely using Unicode ranges
+        emoji_pattern = re.compile(
+            "["
+            "\U0001F600-\U0001F64F"  # Emoticons
+            "\U0001F300-\U0001F5FF"  # Misc Symbols and Pictographs
+            "\U0001F680-\U0001F6FF"  # Transport and Map
+            "\U0001F700-\U0001F77F"  # Alchemical Symbols
+            "\U0001F780-\U0001F7FF"  # Geometric Shapes Extended
+            "\U0001F800-\U0001F8FF"  # Supplemental Arrows-C
+            "\U0001F900-\U0001F9FF"  # Supplemental Symbols and Pictographs
+            "\U0001FA00-\U0001FA6F"  # Chess Symbols, Symbols and Pictographs Extended-A
+            "\U0001FA70-\U0001FAFF"  # Symbols and Pictographs Extended-B
+            "\U00002702-\U000027B0"  # Dingbats
+            "\U000024C2-\U0001F251"  # Enclosed characters
+            "\U00002600-\U000026FF"  # Miscellaneous Symbols (skull, thunder, coffee, etc.)
+            "\U00002300-\U000023FF"  # Miscellaneous Technical
+            "\U00002B00-\U00002BFF"  # Miscellaneous Symbols and Arrows
+            "\U0000200D"              # Zero width joiner
+            "\U0000FE0E-\U0000FE0F"  # Variation Selectors
+            "\U000020E3"              # Combining Enclosing Keycap
+            "]+",
+            flags=re.UNICODE
+        )
+        text = emoji_pattern.sub('', text)
+
+        # Fallback character category check to catch any leftover symbols
+        cleaned_chars = []
+        for ch in text:
+            cat = unicodedata.category(ch)
+            if cat in ('So', 'Sk'):  # Symbol Other, Symbol Modifier
+                continue
+            cleaned_chars.append(ch)
+        text = "".join(cleaned_chars)
+
+        # 5. Remove unwanted punctuation characters like ~, *, ^, |, _, =, +, {}, [], <>
+        text = re.sub(r'[\~\|\_\=\+\{\}\[\]\<\>\*\^]', ' ', text)
+
+        # 6. Normalize punctuation and whitespace
+        text = re.sub(r'\s+', ' ', text)
+        text = re.sub(r'([!?.,])\1+', r'\1', text)
+        return text.strip()
+
     async def _generate_audio_tts(self, text: str, output_path: str) -> float:
         """
         Synthesizes speech using edge-tts (free, no API key required).
+        Guarantees that emojis and icons are never pronounced.
         Returns audio duration in seconds.
         """
+        clean_text = self._clean_speech_text(text)
+        if not clean_text or len(clean_text.strip()) < 3:
+            clean_text = "Mira este momento tan inesperado y divertido."
+
         try:
             import edge_tts
-            communicate = edge_tts.Communicate(text, self.voice, rate="+5%")
+            communicate = edge_tts.Communicate(clean_text, self.voice, rate="+5%")
             await communicate.save(output_path)
             clip = AudioFileClip(output_path)
             duration = clip.duration
@@ -120,6 +192,7 @@ class VideoEngine:
             return duration
         except Exception as e:
             logger.warning(f"edge-tts unavailable or failed ({e}). Generating fallback audio.")
+
             # Fallback: create a silent audio file using moviepy/numpy if edge-tts fails
             import wave
             import struct
@@ -667,33 +740,37 @@ class VideoEngine:
         else:
             raw_clip = raw_clip.subclip(0, target_duration)
 
-        # 4. Create blurred/zoomed ambient background (TikTok/Reels style)
-        bg_clip = raw_clip.resize(height=self.height)
-        if bg_clip.w > self.width:
-            bg_clip = bg_clip.crop(x_center=bg_clip.w / 2, width=self.width)
-        dark_overlay = ImageClip(np.zeros((self.height, self.width, 3), dtype=np.uint8) + 16).set_duration(target_duration).set_opacity(0.65)
-        bg_composite = CompositeVideoClip([bg_clip, dark_overlay], size=(self.width, self.height)).without_audio()
-
-        # 5. Position centered foreground video
+        # 4. Determine orientation & build video composition
         aspect_ratio = raw_clip.w / max(raw_clip.h, 1)
-        if aspect_ratio < 0.65:
-            # Already vertical 9:16
-            fg_clip = raw_clip.resize(width=self.width).set_position(("center", "center"))
+        is_vertical = aspect_ratio <= 0.65
+
+        video_layers = []
+        if is_vertical:
+            # Already vertical (9:16) - Scale directly to canvas
+            fg_clip = raw_clip.resize(height=self.height)
+            if fg_clip.w > self.width:
+                fg_clip = fg_clip.crop(x_center=fg_clip.w / 2, width=self.width)
+            fg_clip = fg_clip.set_position(("center", "center"))
+            video_layers.append(fg_clip)
         else:
-            fg_w = min(1040, self.width - 30)
+            # Landscape / 16:9 - Sleek dark ambient background + centered action clip
+            ambient_bg = ImageClip(np.array(self._create_background_image(theme_idx=0))).set_duration(target_duration)
+            fg_w = min(1040, self.width - 40)
             fg_clip = raw_clip.resize(width=fg_w)
             y_pos = max((self.height - fg_clip.h) // 2, 430)
             fg_clip = fg_clip.set_position(("center", y_pos))
+            video_layers.extend([ambient_bg, fg_clip])
 
-        # 6. Overlays: Top Meme Hook Header & Bottom Punchline Subtitle
+        # 5. Overlays: Top Meme Hook Header & Bottom Punchline Subtitle
         top_arr, bot_arr = self.render_meme_overlays(
             hook=script_data.get("hook", ""),
             cta=script_data.get("cta", "Comenta y Comparte 😂")
         )
         top_clip = ImageClip(top_arr).set_duration(target_duration).set_position(("center", 0))
         bot_clip = ImageClip(bot_arr).set_duration(target_duration).set_position(("center", self.height - 350))
+        video_layers.extend([top_clip, bot_clip])
 
-        final_video = CompositeVideoClip([bg_composite, fg_clip, top_clip, bot_clip], size=(self.width, self.height)).set_duration(target_duration)
+        final_video = CompositeVideoClip(video_layers, size=(self.width, self.height)).set_duration(target_duration)
 
         # 7. Audio Mixing (Original funny video audio + Neural voiceover)
         voice_clip = AudioFileClip(audio_filepath) if os.path.exists(audio_filepath) else None

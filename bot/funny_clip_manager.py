@@ -50,14 +50,16 @@ class FunnyClipManager:
         os.makedirs("assets/clips", exist_ok=True)
 
         self.search_queries = [
-            "funny animal fails short",
-            "funny cat fail short",
-            "funny dog zoomies short",
-            "clumsy puppy fail short",
-            "funny pets hilarious moments short",
-            "funny animals meme short",
-            "relatable funny fails short",
-            "funny unexpected moments short"
+            "funny fails instant regret #shorts",
+            "people falling funny fails #shorts",
+            "hilarious sports bloopers #shorts",
+            "instant karma funny fails #shorts",
+            "funny dog zoomies fail #shorts",
+            "funny cat jumps and fails #shorts",
+            "gym fails hilarious moments #shorts",
+            "unexpected comedy moments #shorts",
+            "clumsy moments caught on camera #shorts",
+            "try not to laugh funniest fails #shorts"
         ]
 
     def _load_used_clips(self) -> List[str]:
@@ -126,7 +128,7 @@ class FunnyClipManager:
         return None
 
     def fetch_pixabay_video(self, query: str = "funny cat") -> Optional[Dict[str, Any]]:
-        """Searches Pixabay API for funny clips if PIXABAY_API_KEY is configured."""
+        """Searches Pixabay API for clips if PIXABAY_API_KEY is configured."""
         if not self.pixabay_api_key:
             return None
 
@@ -157,8 +159,8 @@ class FunnyClipManager:
 
     def download_with_ytdlp(self, query: str) -> Optional[str]:
         """
-        Uses yt-dlp to search for and download a short funny clip (12-16 seconds)
-        with original audio directly from the internet.
+        Uses yt-dlp to search for and download a real viral short (5-45 seconds)
+        with original sound effects and comedy audio, with no platform watermark.
         """
         try:
             import yt_dlp
@@ -166,50 +168,81 @@ class FunnyClipManager:
             logger.warning("yt-dlp is not installed. Skipping online video downloader.")
             return None
 
-        clean_slug = "".join(c if c.isalnum() else "_" for c in query)[:24]
-        target_path = os.path.join(self.temp_dir, f"yt_{clean_slug}_{random.randint(100, 999)}.mp4")
+        ffmpeg_dir = None
+        try:
+            import imageio_ffmpeg
+            ffmpeg_dir = os.path.dirname(imageio_ffmpeg.get_ffmpeg_exe())
+        except Exception:
+            pass
 
-        logger.info(f"Downloading online funny clip via yt-dlp: '{query}'...")
+        # 1. Search flat to find an actual short candidate (avoiding 10+ min compilations)
+        candidate_id = None
+        candidate_title = None
+        search_opts = {'quiet': True, 'extract_flat': True, 'socket_timeout': 15}
+
+        try:
+            with yt_dlp.YoutubeDL(search_opts) as ydl:
+                info = ydl.extract_info(f"ytsearch15:{query}", download=False)
+                entries = info.get("entries", [])
+                for e in entries:
+                    if not e:
+                        continue
+                    dur = e.get("duration") or 0
+                    vid_id = e.get("id")
+                    if vid_id and (vid_id in self.used_clips or f"yt_{vid_id}" in self.used_clips):
+                        continue
+                    if 4 <= dur <= 50 and vid_id:
+                        candidate_id = vid_id
+                        candidate_title = e.get("title", "")
+                        break
+        except Exception as e:
+            logger.warning(f"Error searching for shorts '{query}': {e}")
+
+        clean_slug = "".join(c if c.isalnum() else "_" for c in (candidate_title or query))[:24]
+        target_path = os.path.join(self.temp_dir, f"yt_{clean_slug}_{random.randint(100, 999)}.%(ext)s")
+
         ydl_opts = {
             'quiet': True,
             'no_warnings': True,
-            'format': 'bestvideo[height<=720]+bestaudio/best[height<=720]/best',
+            'format': 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best',
             'outtmpl': target_path,
-            'download_ranges': yt_dlp.utils.download_range_func(None, [(0, 15)]),
-            'force_keyframes_at_cuts': True,
+            'match_filter': yt_dlp.utils.match_filter_func('duration <= 55 & duration >= 4'),
             'max_downloads': 1,
             'socket_timeout': 20,
         }
+        if ffmpeg_dir:
+            ydl_opts['ffmpeg_location'] = ffmpeg_dir
+
+        download_url = f"https://www.youtube.com/shorts/{candidate_id}" if candidate_id else f"ytsearch5:{query}"
+        logger.info(f"Downloading viral comedy short via yt-dlp: {download_url}...")
 
         try:
             with yt_dlp.YoutubeDL(ydl_opts) as ydl:
-                ydl.download([f"ytsearch1:{query}"])
-        except yt_dlp.utils.MaxDownloadsReached:
-            pass
+                ydl.download([download_url])
         except Exception as e:
             logger.warning(f"yt-dlp download notice for '{query}': {e}")
 
-        # Check if target or any file with same basename was downloaded (e.g. .webm or .mkv)
-        base_no_ext = os.path.splitext(target_path)[0]
-        for ext in [".mp4", ".webm", ".mkv", ".mov"]:
-            candidate = base_no_ext + ext
-            if os.path.exists(candidate) and os.path.getsize(candidate) > 20000:
-                logger.info(f"Online funny clip saved: {candidate} ({os.path.getsize(candidate)/(1024*1024):.2f} MB)")
-                return candidate
+        # Check if file was saved in temp_dir
+        base_dir = self.temp_dir
+        if os.path.exists(base_dir):
+            for f in os.listdir(base_dir):
+                if clean_slug in f:
+                    full_path = os.path.join(base_dir, f)
+                    if os.path.isfile(full_path) and os.path.getsize(full_path) > 30000:
+                        logger.info(f"Viral funny short saved: {full_path} ({os.path.getsize(full_path)/(1024*1024):.2f} MB)")
+                        return full_path
 
         return None
 
     def get_next_funny_clip(self, preferred_category: Optional[str] = None) -> Dict[str, Any]:
         """
         Retrieves a funny clip that hasn't been used yet.
-        Guarantees that a REAL funny video clip is returned (NEVER returns None):
-        1. Checks unused local clips in assets/clips/.
-        2. Tries downloading a fresh funny clip from the internet via yt-dlp.
-        3. Queries Pixabay API if configured.
-        4. Queries Pexels API if configured.
-        5. Cycles through bundled local assets/clips/ so there is always a working video.
+        Guarantees a REAL viral comedic action clip (NO static stock animals):
+        1. Checks unused local action clips in assets/clips/.
+        2. Tries downloading a fresh viral action short from the internet via yt-dlp.
+        3. Cycles through verified local action clips in assets/clips/.
         """
-        # 1. Check local assets/clips/ folder for unused clips
+        # 1. Check local assets/clips/ folder for unused high-action clips
         local_clips = self._get_local_clips()
         unused_local = [f for f in local_clips if os.path.basename(f) not in self.used_clips]
 
@@ -217,7 +250,7 @@ class FunnyClipManager:
             chosen = random.choice(unused_local)
             clip_id = os.path.basename(chosen)
             self._save_used_clip(clip_id)
-            logger.info(f"Selected fresh local funny clip: {clip_id}")
+            logger.info(f"Selected fresh local viral action clip: {clip_id}")
             return {
                 "id": clip_id,
                 "source": "local_assets",
@@ -226,7 +259,7 @@ class FunnyClipManager:
                 "local_path": chosen
             }
 
-        # 2. Try online download via yt-dlp for fresh content
+        # 2. Try online download via yt-dlp for fresh viral short
         query = random.choice(self.search_queries)
         downloaded_clip = self.download_with_ytdlp(query)
         if downloaded_clip:
@@ -240,25 +273,11 @@ class FunnyClipManager:
                 "local_path": downloaded_clip
             }
 
-        # 3. Try Pixabay if API key is present
-        if self.pixabay_api_key:
-            pix_clip = self.fetch_pixabay_video(query)
-            if pix_clip:
-                self._save_used_clip(pix_clip["id"])
-                return pix_clip
-
-        # 4. Try Pexels if API key is present
-        if self.pexels_api_key:
-            pex_clip = self.fetch_pexels_video(query)
-            if pex_clip:
-                self._save_used_clip(pex_clip["id"])
-                return pex_clip
-
-        # 5. Fallback: Recycle bundled local clips so a real funny video is ALWAYS returned
+        # 3. Fallback: Recycle verified action clips from assets/clips/
         if local_clips:
             chosen = random.choice(local_clips)
             clip_id = os.path.basename(chosen)
-            logger.info(f"Re-cycling bundled funny clip: {clip_id}")
+            logger.info(f"Re-cycling verified action clip: {clip_id}")
             return {
                 "id": f"{clip_id}_recycle_{random.randint(100, 999)}",
                 "source": "local_recycled",
