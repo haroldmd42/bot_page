@@ -146,6 +146,11 @@ class GrowthOptimizer:
                 "title": title[:95],
                 "hook": hook,
                 "voiceover": voiceover,
+                "points": [
+                    voiceover,
+                    f"Situación: {hook}",
+                    punchline
+                ],
                 "cta": punchline,
                 "full_speech": full_speech,
                 "tags": theme["tags"]

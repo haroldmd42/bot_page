@@ -100,15 +100,22 @@ def run_publish_flow(dry_run: bool = False, topic: str = None, count: int = 3) -
 
         # Step 1: Obtain a fresh, non-repeated funny clip
         clip_data = clip_manager.get_next_funny_clip()
-        logger.info(f"1/4: Clip de comedia asignado: '{clip_data.get('title')}' (ID: {clip_data.get('id')})")
-        clip_path = clip_manager.download_clip(clip_data)
+        if clip_data:
+            logger.info(f"1/4: Clip de comedia asignado: '{clip_data.get('title', 'Clip')}' (ID: {clip_data.get('id')})")
+            clip_path = clip_manager.download_clip(clip_data)
+        else:
+            logger.info("1/4: Sin clip externo asignado. Generando escena cómica animada con locución neural...")
+            clip_path = None
 
         # Step 2: Render funny 9:16 vertical video with meme overlays and voiceover
         timestamp_str = datetime.now().strftime("%Y%m%d_%H%M%S")
         video_filename = f"funny_{timestamp_str}_{idx + 1}.mp4"
         logger.info(f"2/4: Renderizando Short cómico 9:16 ({video_filename})...")
 
-        video_path = run_funny_video_generation_sync(script, clip_path, video_filename)
+        if clip_path:
+            video_path = run_funny_video_generation_sync(script, clip_path, video_filename)
+        else:
+            video_path = run_video_generation_sync(script, video_filename)
 
         # Step 3: Distribute to YouTube Shorts
         logger.info("3/4: Publicando en YouTube Shorts...")
@@ -164,25 +171,28 @@ def run_publish_flow(dry_run: bool = False, topic: str = None, count: int = 3) -
             }
         }
 
-        # Add to beginning of history
-        history.insert(0, new_video_record)
+        if not dry_run:
+            # Add to beginning of history
+            history.insert(0, new_video_record)
         published_records.append(new_video_record)
 
-        logger.info(f"✅ Video {idx + 1}/{count} publicado: {yt_result.get('url')}")
+        logger.info(f"✅ Video {idx + 1}/{count} procesado: {yt_result.get('url')}")
 
         # Rate-limiting pause between uploads
         if idx < count - 1 and not dry_run:
             logger.info("Pausando 15 segundos antes del siguiente video...")
             time.sleep(15)
 
-    # Save all newly created records
-    with open(history_file, "w", encoding="utf-8") as f:
-        json.dump(history, f, indent=2, ensure_ascii=False)
-
-    sync_data_to_dashboard()
+    if not dry_run:
+        # Save all newly created records
+        with open(history_file, "w", encoding="utf-8") as f:
+            json.dump(history, f, indent=2, ensure_ascii=False)
+        sync_data_to_dashboard()
+    else:
+        logger.info("[DRY-RUN] Historial real preservado intacto (sin mocks).")
 
     logger.info("==================================================")
-    logger.info(f"🎉 BATCH COMPLETADO: {len(published_records)} VIDEOS VIRALES PUBLICADOS")
+    logger.info(f"🎉 BATCH COMPLETADO: {len(published_records)} VIDEOS VIRALES PROCESADOS")
     logger.info("==================================================")
     return published_records
 
