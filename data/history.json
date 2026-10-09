@@ -183,8 +183,8 @@
       "video_id": "DcbcUn_4Pow",
       "url": "https://youtube.com/shorts/DcbcUn_4Pow",
       "status": "published",
-      "views": 203,
-      "likes": 4,
+      "views": 701,
+      "likes": 23,
       "comments": 0
     },
     "facebook": {
@@ -197,11 +197,11 @@
       "shares": 0
     },
     "metrics_summary": {
-      "total_views": 203,
-      "total_likes": 4,
+      "total_views": 701,
+      "total_likes": 23,
       "total_comments": 0,
       "total_shares": 0,
-      "engagement_rate": 1.97
+      "engagement_rate": 3.28
     }
   },
   {
@@ -388,7 +388,7 @@
       "video_id": "-OPEhfdbD8I",
       "url": "https://youtube.com/shorts/-OPEhfdbD8I",
       "status": "published",
-      "views": 48,
+      "views": 60,
       "likes": 2,
       "comments": 2
     },
@@ -402,11 +402,11 @@
       "shares": 0
     },
     "metrics_summary": {
-      "total_views": 48,
+      "total_views": 60,
       "total_likes": 2,
       "total_comments": 2,
       "total_shares": 0,
-      "engagement_rate": 8.33
+      "engagement_rate": 6.67
     }
   }
 ]
