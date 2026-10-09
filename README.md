@@ -131,6 +131,8 @@ En tu repositorio de GitHub:
 | `YT_REFRESH_TOKEN` | El refresh token generado con `bot/get_youtube_token.py` |
 | `FB_PAGE_ID` | El ID numérico de tu Página de Facebook |
 | `FB_PAGE_ACCESS_TOKEN` | Token de acceso de larga duración para la página |
+| `PIXABAY_API_KEY` | *(Opcional)* Clave API gratuita e inmediata de [pixabay.com/api/docs](https://pixabay.com/api/docs/) para descargar videos de comedia automáticamente |
+| `PEXELS_API_KEY` | *(Opcional)* Si ya tienes cuenta en Pexels |
 
 3. En **Settings > Actions > General > Workflow permissions**, marca:
    * **Read and write permissions**

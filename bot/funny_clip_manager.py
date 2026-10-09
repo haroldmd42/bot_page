@@ -24,6 +24,7 @@ class FunnyClipManager:
         self.used_clips_file = used_clips_file
         self.temp_dir = temp_dir
         self.pexels_api_key = os.getenv("PEXELS_API_KEY")
+        self.pixabay_api_key = os.getenv("PIXABAY_API_KEY")
         self.used_clips = self._load_used_clips()
         os.makedirs(self.temp_dir, exist_ok=True)
 
@@ -119,14 +120,43 @@ class FunnyClipManager:
                         }
         except Exception as e:
             logger.warning(f"Error querying Pexels: {e}")
+    def fetch_pixabay_video(self, query: str = "funny cat") -> Optional[Dict[str, Any]]:
+        """Searches Pixabay API for funny clips if PIXABAY_API_KEY is configured."""
+        if not self.pixabay_api_key:
+            return None
+
+        try:
+            url = f"https://pixabay.com/api/videos/?key={self.pixabay_api_key}&q={requests.utils.quote(query)}&per_page=20"
+            res = requests.get(url, timeout=15)
+            if res.status_code == 200:
+                data = res.json()
+                hits = data.get("hits", [])
+                for hit in hits:
+                    vid_id = f"pixabay_{hit.get('id')}"
+                    if vid_id in self.used_clips:
+                        continue
+                    vids = hit.get("videos", {})
+                    # Select best available video stream (medium, large or small)
+                    selected = vids.get("medium") or vids.get("large") or vids.get("small")
+                    if selected and selected.get("url"):
+                        return {
+                            "id": vid_id,
+                            "category": "pixabay_dynamic",
+                            "title": hit.get("tags", query).split(",")[0].strip().title(),
+                            "url": selected["url"],
+                            "duration": hit.get("duration", 15)
+                        }
+        except Exception as e:
+            logger.warning(f"Error querying Pixabay: {e}")
         return None
 
     def get_next_funny_clip(self, preferred_category: Optional[str] = None) -> Optional[Dict[str, Any]]:
         """
         Retrieves a funny clip that hasn't been used yet.
         1. Checks if the user dropped any custom funny video files into assets/clips/.
-        2. Queries Pexels API for fresh vertical funny clips if PEXELS_API_KEY is configured.
-        3. Returns None if no external clip is found, allowing procedural comedic scene rendering.
+        2. Queries Pixabay API if PIXABAY_API_KEY is configured.
+        3. Queries Pexels API if PEXELS_API_KEY is configured.
+        4. Returns None if no external clip is found, allowing procedural comedic scene rendering.
         """
         # 1. Check local assets/clips folder
         local_dir = "assets/clips"
@@ -147,16 +177,24 @@ class FunnyClipManager:
                     "local_path": chosen
                 }
 
-        # 2. Try dynamic Pexels search if API key exists
+        search_terms = ["funny cat", "funny dog", "funny fails", "clumsy animal", "funny pets", "cute cat funny"]
+        query = random.choice(search_terms)
+
+        # 2. Try Pixabay (Instant free API)
+        if self.pixabay_api_key:
+            pixabay_clip = self.fetch_pixabay_video(query)
+            if pixabay_clip:
+                self._save_used_clip(pixabay_clip["id"])
+                return pixabay_clip
+
+        # 3. Try Pexels search if API key exists
         if self.pexels_api_key:
-            search_terms = ["funny cat", "funny dog", "funny fails", "clumsy animal", "funny baby", "comedy meme"]
-            query = random.choice(search_terms)
             pexels_clip = self.fetch_pexels_video(query)
             if pexels_clip:
                 self._save_used_clip(pexels_clip["id"])
                 return pexels_clip
 
-        # 3. No external clip file available
+        # 4. No external clip file available -> fallback to procedural comedy scenes
         return None
 
     def download_clip(self, clip_data: Optional[Dict[str, Any]]) -> Optional[str]:
