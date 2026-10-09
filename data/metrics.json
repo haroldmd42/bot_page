@@ -1,18 +1,16 @@
 {
-  "last_updated": "2026-10-09T02:06:13Z",
+  "last_updated": "2026-10-09T02:23:37.839616Z",
   "overview": {
-    "total_videos": 1,
-    "total_views": 0,
-    "total_likes": 0,
-    "total_comments": 0,
+    "total_videos": 2,
+    "total_views": 15,
+    "total_likes": 1,
+    "total_comments": 2,
     "total_shares": 0,
-    "average_engagement_rate": 0.0,
+    "average_engagement_rate": 20.0,
     "top_performing_niche": "Tech & AI",
-    "top_performing_hook": "Si no entiendes cómo funcionan los modelos de razonamiento, te vas a quedar atrás.",
-    "top_performing_video_id": "vid_20261009_020528",
     "youtube_shorts_monetization": {
       "target_views": 10000000,
-      "current_views": 0,
+      "current_views": 15,
       "percentage": 0.0,
       "estimated_cpm_usd": 0.08,
       "estimated_earnings_usd": 0.0
@@ -34,35 +32,45 @@
       "shares": 0,
       "engagement_rate": 0.0,
       "cumulative_views": 0
+    },
+    {
+      "date": "2026-10-09",
+      "views": 15,
+      "likes": 1,
+      "comments": 2,
+      "shares": 0,
+      "engagement_rate": 20.0,
+      "cumulative_views": 15
     }
   ],
   "platform_breakdown": {
     "youtube": {
-      "views": 0,
-      "likes": 0,
-      "comments": 0,
+      "views": 15,
       "share_pct": 100.0
     },
     "facebook": {
       "views": 0,
-      "likes": 0,
-      "comments": 0,
-      "shares": 0,
       "share_pct": 0.0
     }
   },
   "optimization_recommendations": [
     {
-      "type": "channel_launch",
+      "type": "niche_focus",
       "priority": "HIGH",
-      "title": "Primer Video Publicado en YouTube Shorts 🚀",
-      "description": "Tu primer Short 'El Nuevo Algoritmo que está Cambiando Todo en 2026' ya está en YouTube. En las próximas horas el algoritmo comenzará las primeras impresiones en el feed de Shorts."
+      "title": "Priorizar contenido de 'Tech & AI'",
+      "description": "El nicho Tech & AI está superando el promedio de reproducciones con una retención superior. Mantén al menos el 60% de publicaciones en esta temática."
     },
     {
-      "type": "retention_focus",
+      "type": "hook_velocity",
+      "priority": "HIGH",
+      "title": "Optimización del Micro-Hook (0-2s)",
+      "description": "El gancho debe aparecer en los primeros 1.5 segundos con texto en dos líneas amarillo y blanco sobre fondo oscuro para maximizar la tasa de swipe-through."
+    },
+    {
+      "type": "cta_loop",
       "priority": "MEDIUM",
-      "title": "Monitoreo de Curva de Retención a las 24h",
-      "description": "YouTube tarda entre 6 y 24 horas en consolidar las estadísticas del Short en la API pública. Las métricas se actualizarán automáticamente."
+      "title": "Llamado a la acción con bucle infinito",
+      "description": "Conectar la última frase del video de vuelta al inicio permite que el algoritmo registre 120%+ de tiempo de reproducción en YouTube Shorts."
     }
   ]
 }

@@ -58,9 +58,9 @@
       "video_id": "-OPEhfdbD8I",
       "url": "https://youtube.com/shorts/-OPEhfdbD8I",
       "status": "published",
-      "views": 0,
-      "likes": 0,
-      "comments": 0
+      "views": 15,
+      "likes": 1,
+      "comments": 2
     },
     "facebook": {
       "video_id": null,
@@ -72,11 +72,11 @@
       "shares": 0
     },
     "metrics_summary": {
-      "total_views": 0,
-      "total_likes": 0,
-      "total_comments": 0,
+      "total_views": 15,
+      "total_likes": 1,
+      "total_comments": 2,
       "total_shares": 0,
-      "engagement_rate": 0.0
+      "engagement_rate": 20.0
     }
   }
 ]
