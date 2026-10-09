@@ -19,84 +19,64 @@ import MetricCard from './components/MetricCard';
 import GrowthChart from './components/GrowthChart';
 import MonetizationTips from './components/MonetizationTips';
 import VideoTable from './components/VideoTable';
+import TriggerBotModal from './components/TriggerBotModal';
 
-// Default static fallback data in case of direct local file protocol
+// Clean real baseline fallback data matching actual channel uploads
 const fallbackHistory = [
   {
-    "id": "vid_20261001_01",
-    "title": "3 Webs con IA que parecen ILEGALES de conocer en 2026 🤖",
-    "hook": "¿Sigues usando ChatGPT como en 2023? Estas 3 webs te vuelan la cabeza.",
+    "id": "vid_20261009_020528",
+    "title": "El Nuevo Algoritmo que está Cambiando Todo en 2026 ⚡",
+    "hook": "Si no entiendes cómo funcionan los modelos de razonamiento, te vas a quedar atrás.",
     "niche": "Tech & AI",
-    "created_at": "2026-10-01T14:00:00Z",
-    "duration": 38.5,
+    "created_at": "2026-10-09T02:05:44Z",
+    "duration": 35.0,
     "status": "published",
-    "youtube": { "video_id": "yt_sample_01", "url": "https://youtube.com/shorts/yt_sample_01", "views": 48200, "likes": 3950, "comments": 312 },
-    "facebook": { "video_id": "fb_sample_01", "url": "https://facebook.com/reel/fb_sample_01", "views": 62400, "likes": 5120, "comments": 488, "shares": 1240 },
-    "metrics_summary": { "total_views": 110600, "total_likes": 9070, "total_comments": 800, "total_shares": 1240, "engagement_rate": 9.87 }
-  },
-  {
-    "id": "vid_20261004_04",
-    "title": "Por qué NO Deberías Aprender a Programar en 2026 (La Verdad) 💻",
-    "hook": "No aprendas sintaxis básica. Si no sabes orquestar agentes IA, estás fuera.",
-    "niche": "Tech & AI",
-    "created_at": "2026-10-04T14:00:00Z",
-    "duration": 40.0,
-    "status": "published",
-    "youtube": { "video_id": "yt_sample_04", "url": "https://youtube.com/shorts/yt_sample_04", "views": 98400, "likes": 9150, "comments": 1140 },
-    "facebook": { "video_id": "fb_sample_04", "url": "https://facebook.com/reel/fb_sample_04", "views": 115200, "likes": 10450, "comments": 1580, "shares": 3410 },
-    "metrics_summary": { "total_views": 213600, "total_likes": 19600, "total_comments": 2720, "total_shares": 3410, "engagement_rate": 12.04 }
+    "youtube": { "video_id": "-OPEhfdbD8I", "url": "https://youtube.com/shorts/-OPEhfdbD8I", "views": 0, "likes": 0, "comments": 0 },
+    "facebook": { "video_id": null, "url": null, "status": "pending_setup", "views": 0, "likes": 0, "comments": 0, "shares": 0 },
+    "metrics_summary": { "total_views": 0, "total_likes": 0, "total_comments": 0, "total_shares": 0, "engagement_rate": 0.0 }
   }
 ];
 
 const fallbackMetrics = {
   "last_updated": new Date().toISOString(),
   "overview": {
-    "total_videos": 5,
-    "total_views": 644400,
-    "total_likes": 55800,
-    "total_comments": 5896,
-    "total_shares": 8100,
-    "average_engagement_rate": 10.83,
+    "total_videos": 1,
+    "total_views": 0,
+    "total_likes": 0,
+    "total_comments": 0,
+    "total_shares": 0,
+    "average_engagement_rate": 0.0,
     "top_performing_niche": "Tech & AI",
-    "top_performing_hook": "No aprendas sintaxis básica. Si no sabes orquestar agentes IA, estás fuera.",
+    "top_performing_hook": "Si no entiendes cómo funcionan los modelos de razonamiento, te vas a quedar atrás.",
+    "top_performing_video_id": "vid_20261009_020528",
     "youtube_shorts_monetization": {
       "target_views": 10000000,
-      "current_views": 297000,
-      "percentage": 2.97,
+      "current_views": 0,
+      "percentage": 0.0,
       "estimated_cpm_usd": 0.08,
-      "estimated_earnings_usd": 23.76
+      "estimated_earnings_usd": 0.0
     },
     "facebook_reels_monetization": {
       "target_views": 500000,
-      "current_views": 347400,
-      "percentage": 69.48,
+      "current_views": 0,
+      "percentage": 0.0,
       "estimated_cpm_usd": 0.15,
-      "estimated_earnings_usd": 52.11
+      "estimated_earnings_usd": 0.0
     }
   },
   "growth_trends": [
-    { "date": "2026-10-01", "views": 110600, "likes": 9070, "comments": 800, "shares": 1240, "cumulative_views": 110600 },
-    { "date": "2026-10-02", "views": 59300, "likes": 4400, "comments": 326, "shares": 380, "cumulative_views": 169900 },
-    { "date": "2026-10-03", "views": 163600, "likes": 14720, "comments": 1420, "shares": 2150, "cumulative_views": 333500 },
-    { "date": "2026-10-04", "views": 213600, "likes": 19600, "comments": 2720, "shares": 3410, "cumulative_views": 547100 },
-    { "date": "2026-10-05", "views": 97300, "likes": 8010, "comments": 630, "shares": 920, "cumulative_views": 644400 }
+    { "date": "2026-10-08", "views": 0, "likes": 0, "comments": 0, "shares": 0, "cumulative_views": 0 }
   ],
   "platform_breakdown": {
-    "youtube": { "views": 297000, "share_pct": 46.1 },
-    "facebook": { "views": 347400, "share_pct": 53.9 }
+    "youtube": { "views": 0, "likes": 0, "comments": 0, "share_pct": 100.0 },
+    "facebook": { "views": 0, "likes": 0, "comments": 0, "shares": 0, "share_pct": 0.0 }
   },
   "optimization_recommendations": [
     {
-      "type": "hook_strategy",
+      "type": "channel_launch",
       "priority": "HIGH",
-      "title": "Ganchos de Confrontación Directa (+38% Retención)",
-      "description": "Los ganchos que desafían una creencia popular superaron la media en un +65% de reproducciones totales."
-    },
-    {
-      "type": "pacing",
-      "priority": "MEDIUM",
-      "title": "Cortes visuales cada 2.8 segundos",
-      "description": "La tasa de finalización creció un 22% cuando se insertan cambios de escena cada 3 segundos."
+      "title": "Primer Video Publicado en YouTube Shorts 🚀",
+      "description": "Tu video 'El Nuevo Algoritmo que está Cambiando Todo en 2026' ya está en YouTube. Las métricas se actualizan desde la API oficial de YouTube."
     }
   ]
 };
@@ -106,6 +86,7 @@ export default function App() {
   const [metrics, setMetrics] = useState(fallbackMetrics);
   const [loading, setLoading] = useState(false);
   const [showCliGuide, setShowCliGuide] = useState(false);
+  const [isTriggerModalOpen, setIsTriggerModalOpen] = useState(false);
 
   const loadData = async () => {
     setLoading(true);
@@ -145,10 +126,11 @@ export default function App() {
         lastUpdated={metrics.last_updated}
         onRefresh={loadData}
         isRefreshing={loading}
+        onOpenTriggerModal={() => setIsTriggerModalOpen(true)}
       />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 flex-1 w-full">
-        {/* Banner: Autonomous status */}
+        {/* Banner: Autonomous status with 1-click trigger */}
         <div className="bg-gradient-to-r from-amber-500/10 via-yellow-500/10 to-indigo-500/10 border border-yellow-500/30 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-center space-x-3.5">
             <div className="p-2.5 rounded-xl bg-yellow-400/20 text-yellow-400 border border-yellow-400/30">
@@ -159,17 +141,26 @@ export default function App() {
                 Pipeline Autónomo de Contenido $0 Operativo
               </h2>
               <p className="text-xs text-slate-400">
-                GitHub Actions ejecuta la creación diaria (14:00 UTC) y actualiza analíticas cada 12 horas.
+                Métricas 100% reales de tus canales. Creación diaria programada (14:00 UTC) o ejecución manual bajo demanda.
               </p>
             </div>
           </div>
-          <button
-            onClick={() => setShowCliGuide(!showCliGuide)}
-            className="inline-flex items-center gap-1.5 text-xs font-bold text-yellow-400 hover:text-yellow-300 bg-slate-900/90 border border-yellow-500/30 px-3.5 py-2 rounded-xl transition-all self-start sm:self-auto"
-          >
-            <Terminal className="w-3.5 h-3.5" />
-            {showCliGuide ? 'Ocultar Comandos' : 'Comandos de Ejecución'}
-          </button>
+          <div className="flex items-center gap-2.5 self-start sm:self-auto">
+            <button
+              onClick={() => setIsTriggerModalOpen(true)}
+              className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-950 bg-yellow-400 hover:bg-yellow-300 px-3.5 py-2 rounded-xl transition-all shadow-md shadow-yellow-500/20"
+            >
+              <span>🚀</span>
+              <span>Crear Video Ahora</span>
+            </button>
+            <button
+              onClick={() => setShowCliGuide(!showCliGuide)}
+              className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-300 hover:text-white bg-slate-900 border border-slate-700/80 px-3 py-2 rounded-xl transition-all"
+            >
+              <Terminal className="w-3.5 h-3.5 text-yellow-400" />
+              <span>{showCliGuide ? 'Ocultar' : 'CLI'}</span>
+            </button>
+          </div>
         </div>
 
         {/* Collapsible Execution Guide */}
@@ -281,6 +272,14 @@ export default function App() {
           </span>
         </div>
       </footer>
+
+      {/* Manual Execution Modal */}
+      <TriggerBotModal
+        isOpen={isTriggerModalOpen}
+        onClose={() => setIsTriggerModalOpen(false)}
+        repoOwner="haroldmd42"
+        repoName="bot_page"
+      />
     </div>
   );
 }

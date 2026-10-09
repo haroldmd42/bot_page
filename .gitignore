@@ -18,6 +18,7 @@ output/*.wav
 output/*.m4a
 *.mp4
 *.mp3
+image.png
 
 # Node & Frontend build
 node_modules/

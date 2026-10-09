@@ -63,15 +63,12 @@ class AnalyticsCollector:
             json.dump(data, f, indent=2, ensure_ascii=False)
 
     def fetch_youtube_metrics(self, video_id: str) -> Dict[str, int]:
-        """Queries YouTube Data API v3 for view, like, and comment counts."""
-        if not (self.yt_client_id and self.yt_client_secret and self.yt_refresh_token) or video_id.startswith("yt_sample") or video_id.startswith("yt_"):
-            # Simulated realistic growth for demo / dry-run mode
-            growth_factor = random.uniform(1.02, 1.08)
-            return {
-                "views": int(random.randint(1500, 5000) * growth_factor),
-                "likes": int(random.randint(120, 450) * growth_factor),
-                "comments": int(random.randint(15, 60) * growth_factor)
-            }
+        """Queries YouTube Data API v3 for real view, like, and comment counts."""
+        if not video_id or video_id.startswith("yt_sample") or video_id.startswith("yt_"):
+            return {"views": 0, "likes": 0, "comments": 0}
+
+        if not (self.yt_client_id and self.yt_client_secret and self.yt_refresh_token):
+            return {"views": 0, "likes": 0, "comments": 0}
 
         try:
             creds = Credentials(
@@ -86,7 +83,7 @@ class AnalyticsCollector:
 
             items = response.get("items", [])
             if not items:
-                logger.warning(f"No YouTube stats found for ID {video_id}")
+                logger.warning(f"No YouTube stats found for real video ID {video_id}")
                 return {"views": 0, "likes": 0, "comments": 0}
 
             stats = items[0].get("statistics", {})
@@ -96,19 +93,13 @@ class AnalyticsCollector:
                 "comments": int(stats.get("commentCount", 0))
             }
         except Exception as e:
-            logger.error(f"Error fetching YouTube metrics for {video_id}: {e}")
+            logger.error(f"Error fetching real YouTube metrics for {video_id}: {e}")
             return {"views": 0, "likes": 0, "comments": 0}
 
     def fetch_facebook_metrics(self, video_id: str) -> Dict[str, int]:
-        """Queries Meta Graph API for views, reactions, and comments."""
-        if not self.fb_access_token or video_id.startswith("fb_sample") or video_id.startswith("fb_"):
-            growth_factor = random.uniform(1.03, 1.09)
-            return {
-                "views": int(random.randint(2200, 6500) * growth_factor),
-                "likes": int(random.randint(180, 550) * growth_factor),
-                "comments": int(random.randint(25, 90) * growth_factor),
-                "shares": int(random.randint(40, 150) * growth_factor)
-            }
+        """Queries Meta Graph API for real views, reactions, and comments."""
+        if not video_id or video_id.startswith("fb_sample") or video_id.startswith("fb_") or not self.fb_access_token or self.fb_access_token == "mock_pending":
+            return {"views": 0, "likes": 0, "comments": 0, "shares": 0}
 
         try:
             url = f"https://graph.facebook.com/v19.0/{video_id}"
@@ -118,7 +109,7 @@ class AnalyticsCollector:
             }
             res = requests.get(url, params=params, timeout=20)
             if res.status_code != 200:
-                logger.warning(f"Meta Graph API error for {video_id}: {res.text}")
+                logger.warning(f"Meta Graph API notice for {video_id}: {res.status_code}")
                 return {"views": 0, "likes": 0, "comments": 0, "shares": 0}
 
             data = res.json()
@@ -134,7 +125,7 @@ class AnalyticsCollector:
                 "shares": int(shares)
             }
         except Exception as e:
-            logger.error(f"Error fetching Facebook metrics for {video_id}: {e}")
+            logger.error(f"Error fetching real Facebook metrics for {video_id}: {e}")
             return {"views": 0, "likes": 0, "comments": 0, "shares": 0}
 
     def collect_and_sync(self) -> Dict[str, Any]:

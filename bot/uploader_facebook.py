@@ -47,14 +47,13 @@ class FacebookReelsUploader:
 
         file_size = os.path.getsize(file_path)
 
-        # Dry-run / fallback mode
-        if self.dry_run or not (self.page_id and self.access_token):
-            logger.warning("[DRY-RUN] Simulating Facebook Reel upload. Credentials missing or dry-run enabled.")
-            simulated_id = f"fb_{int(time.time())}"
+        # When credentials are not yet configured
+        if self.dry_run or not (self.page_id and self.access_token) or self.access_token == "mock_pending" or self.page_id == "mock_pending":
+            logger.info("Facebook credentials not yet active or marked as mock_pending. Skipping Facebook Reel.")
             return {
-                "video_id": simulated_id,
-                "url": f"https://facebook.com/reel/{simulated_id}",
-                "status": "simulated_success",
+                "video_id": None,
+                "url": None,
+                "status": "pending_setup",
                 "title": title
             }
 

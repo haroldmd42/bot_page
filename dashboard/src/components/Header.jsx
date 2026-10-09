@@ -1,7 +1,7 @@
 import React from 'react';
 import { Bot, RefreshCw, Radio, Sparkles, Terminal, ShieldCheck } from 'lucide-react';
 
-export default function Header({ lastUpdated, onRefresh, isRefreshing }) {
+export default function Header({ lastUpdated, onRefresh, isRefreshing, onOpenTriggerModal }) {
   const formatTime = (isoStr) => {
     if (!isoStr) return 'Reciente';
     try {
@@ -37,7 +37,7 @@ export default function Header({ lastUpdated, onRefresh, isRefreshing }) {
                 </span>
               </div>
               <p className="text-xs text-slate-400 font-medium">
-                Generador Autónomo • Meta Reels & YouTube Shorts • Feedback Loop
+                Generador Autónomo • Meta Reels & YouTube Shorts • Métricas 100% Reales
               </p>
             </div>
           </div>
@@ -54,22 +54,24 @@ export default function Header({ lastUpdated, onRefresh, isRefreshing }) {
               <span className="text-emerald-400 font-bold">Activo</span>
             </div>
 
-            {/* Last Updated */}
-            <div className="bg-slate-900 border border-slate-800 px-3 py-1.5 rounded-xl text-xs text-slate-400 flex items-center gap-1.5">
-              <Radio className="w-3.5 h-3.5 text-yellow-400" />
-              <span>Sincronizado:</span>
-              <span className="text-slate-200 font-semibold">{formatTime(lastUpdated)}</span>
-            </div>
+            {/* Manual Run Trigger Button */}
+            <button
+              onClick={onOpenTriggerModal}
+              className="bg-gradient-to-r from-yellow-400 to-amber-500 hover:from-yellow-300 hover:to-amber-400 text-slate-950 font-black px-4 py-1.5 rounded-xl text-xs flex items-center gap-1.5 transition-all shadow-lg shadow-yellow-500/20 active:scale-95"
+            >
+              <span>🚀</span>
+              <span>Ejecutar Bot Ahora</span>
+            </button>
 
             {/* Refresh Button */}
             <button
               onClick={onRefresh}
               disabled={isRefreshing}
-              className="bg-yellow-400 hover:bg-yellow-300 text-slate-950 font-bold px-3.5 py-1.5 rounded-xl text-xs flex items-center gap-1.5 transition-all shadow-md shadow-yellow-500/10 disabled:opacity-50"
-              title="Refrescar métricas locales"
+              className="bg-slate-900 hover:bg-slate-800 border border-slate-700/80 text-slate-300 font-semibold px-3 py-1.5 rounded-xl text-xs flex items-center gap-1.5 transition-all disabled:opacity-50"
+              title="Refrescar métricas"
             >
-              <RefreshCw className={`w-3.5 h-3.5 ${isRefreshing ? 'animate-spin' : ''}`} />
-              <span>{isRefreshing ? 'Cargando...' : 'Actualizar'}</span>
+              <RefreshCw className={`w-3.5 h-3.5 ${isRefreshing ? 'animate-spin text-yellow-400' : ''}`} />
+              <span className="hidden sm:inline">{isRefreshing ? 'Cargando...' : 'Actualizar'}</span>
             </button>
           </div>
         </div>

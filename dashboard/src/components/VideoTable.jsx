@@ -185,7 +185,7 @@ export default function VideoTable({ videos = [] }) {
                           {formatNumber(video.facebook?.shares)}
                         </span>
                       </div>
-                      {video.facebook?.url && (
+                      {video.facebook?.url ? (
                         <a
                           href={video.facebook.url}
                           target="_blank"
@@ -194,6 +194,10 @@ export default function VideoTable({ videos = [] }) {
                         >
                           Ver Reel <ExternalLink className="w-2.5 h-2.5" />
                         </a>
+                      ) : (
+                        <span className="mt-1.5 inline-block text-[10px] text-slate-500 bg-slate-900/80 px-2 py-0.5 rounded border border-slate-800">
+                          Pendiente
+                        </span>
                       )}
                     </div>
                   </td>
