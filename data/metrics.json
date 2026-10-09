@@ -1,12 +1,12 @@
 {
-  "last_updated": "2026-10-08T20:25:09.950312Z",
+  "last_updated": "2026-10-09T02:06:12.795921Z",
   "overview": {
-    "total_videos": 7,
-    "total_views": 664483,
-    "total_likes": 57304,
-    "total_comments": 6139,
-    "total_shares": 8383,
-    "average_engagement_rate": 10.81,
+    "total_videos": 8,
+    "total_views": 670893,
+    "total_likes": 58002,
+    "total_comments": 6264,
+    "total_shares": 8519,
+    "average_engagement_rate": 10.85,
     "top_performing_niche": "Tech & AI",
     "youtube_shorts_monetization": {
       "target_views": 10000000,
@@ -17,10 +17,10 @@
     },
     "facebook_reels_monetization": {
       "target_views": 500000,
-      "current_views": 360158,
-      "percentage": 72.03,
+      "current_views": 366568,
+      "percentage": 73.31,
       "estimated_cpm_usd": 0.15,
-      "estimated_earnings_usd": 54.02
+      "estimated_earnings_usd": 54.99
     }
   },
   "growth_trends": [
@@ -77,24 +77,33 @@
       "shares": 8383,
       "engagement_rate": 10.81,
       "cumulative_views": 664483
+    },
+    {
+      "date": "2026-10-09",
+      "views": 670893,
+      "likes": 58002,
+      "comments": 6264,
+      "shares": 8519,
+      "engagement_rate": 10.85,
+      "cumulative_views": 670893
     }
   ],
   "platform_breakdown": {
     "youtube": {
       "views": 304325,
-      "share_pct": 45.8
+      "share_pct": 45.4
     },
     "facebook": {
-      "views": 360158,
-      "share_pct": 54.2
+      "views": 366568,
+      "share_pct": 54.6
     }
   },
   "optimization_recommendations": [
     {
       "type": "niche_focus",
       "priority": "HIGH",
-      "title": "Priorizar contenido de 'Tech & AI'",
-      "description": "El nicho Tech & AI está superando el promedio de reproducciones con una retención superior. Mantén al menos el 60% de publicaciones en esta temática."
+      "title": "Priorizar contenido de 'Tech Hacks'",
+      "description": "El nicho Tech Hacks está superando el promedio de reproducciones con una retención superior. Mantén al menos el 60% de publicaciones en esta temática."
     },
     {
       "type": "hook_velocity",

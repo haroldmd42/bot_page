@@ -26,17 +26,17 @@
       "video_id": "fb_1791511544",
       "url": "https://facebook.com/reel/fb_1791511544",
       "status": "simulated_success",
-      "views": 0,
-      "likes": 0,
-      "comments": 0,
-      "shares": 0
+      "views": 6410,
+      "likes": 555,
+      "comments": 85,
+      "shares": 136
     },
     "metrics_summary": {
-      "total_views": 0,
-      "total_likes": 0,
-      "total_comments": 0,
-      "total_shares": 0,
-      "engagement_rate": 0.0
+      "total_views": 6410,
+      "total_likes": 555,
+      "total_comments": 85,
+      "total_shares": 136,
+      "engagement_rate": 12.11
     }
   },
   {
@@ -67,16 +67,16 @@
       "url": "https://facebook.com/reel/fb_1791509107",
       "status": "simulated_success",
       "views": 6138,
-      "likes": 278,
+      "likes": 295,
       "comments": 75,
       "shares": 128
     },
     "metrics_summary": {
       "total_views": 8685,
-      "total_likes": 682,
+      "total_likes": 699,
       "total_comments": 134,
       "total_shares": 128,
-      "engagement_rate": 10.87
+      "engagement_rate": 11.07
     }
   },
   {
@@ -99,8 +99,8 @@
       "url": "https://youtube.com/shorts/yt_1791509089",
       "status": "simulated_success",
       "views": 4778,
-      "likes": 330,
-      "comments": 46
+      "likes": 456,
+      "comments": 62
     },
     "facebook": {
       "video_id": "fb_1791509089",
@@ -108,15 +108,15 @@
       "status": "simulated_success",
       "views": 6620,
       "likes": 492,
-      "comments": 63,
+      "comments": 87,
       "shares": 155
     },
     "metrics_summary": {
       "total_views": 11398,
-      "total_likes": 822,
-      "total_comments": 109,
+      "total_likes": 948,
+      "total_comments": 149,
       "total_shares": 155,
-      "engagement_rate": 9.53
+      "engagement_rate": 10.98
     }
   },
   {
