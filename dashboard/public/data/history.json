@@ -1,5 +1,49 @@
 [
   {
+    "id": "vid_funny_20261009_150642_1",
+    "title": "Nivel de confianza: 1000%. Nivel de habilidad: 0% 😂",
+    "hook": "Nivel de confianza: 1000%. Nivel de habilidad: 0% 😂",
+    "niche": "Fails Épicos & Instant Regret",
+    "created_at": "2026-10-09T15:07:21.966114Z",
+    "duration": 20.0,
+    "status": "limit_reached",
+    "tags": [
+      "Shorts",
+      "Fails",
+      "HumorViral",
+      "InstantRegret",
+      "Comedia",
+      "Risas",
+      "Meme"
+    ],
+    "youtube": {
+      "video_id": null,
+      "url": null,
+      "status": "limit_exceeded",
+      "error": "uploadLimitExceeded: Se alcanzó el límite diario de subidas en YouTube para este canal.",
+      "views": 0,
+      "likes": 0,
+      "comments": 0
+    },
+    "facebook": {
+      "video_id": null,
+      "url": null,
+      "status": "pending_setup",
+      "error": null,
+      "views": 0,
+      "likes": 0,
+      "comments": 0,
+      "shares": 0
+    },
+    "metrics_summary": {
+      "total_views": 0,
+      "total_likes": 0,
+      "total_comments": 0,
+      "total_shares": 0,
+      "engagement_rate": 0.0
+    }
+  },
+  {
     "id": "vid_funny_20261009_133855_3",
     "title": "Mi última neurona intentando sobrevivir el día de hoy 🧠⚡",
     "hook": "Mi última neurona intentando sobrevivir el día de hoy 🧠⚡",
