@@ -1,5 +1,135 @@
 [
   {
+    "id": "vid_funny_20261009_191240_3",
+    "title": "Prueba de que a los animales también se les apaga el cerebro 😂",
+    "hook": "Prueba de que a los animales también se les apaga el cerebro 😂",
+    "niche": "Mascotas Caóticas & Bloopers",
+    "created_at": "2026-10-09T19:13:02.378349Z",
+    "duration": 20.0,
+    "status": "limit_reached",
+    "tags": [
+      "Shorts",
+      "MascotasGraciosas",
+      "Animales",
+      "PerrosChistosos",
+      "GatosLocos",
+      "Humor"
+    ],
+    "youtube": {
+      "video_id": null,
+      "url": null,
+      "status": "limit_exceeded",
+      "error": "uploadLimitExceeded: Se alcanzó el límite diario de subidas en YouTube para este canal.",
+      "views": 0,
+      "likes": 0,
+      "comments": 0
+    },
+    "facebook": {
+      "video_id": null,
+      "url": null,
+      "status": "pending_setup",
+      "error": null,
+      "views": 0,
+      "likes": 0,
+      "comments": 0,
+      "shares": 0
+    },
+    "metrics_summary": {
+      "total_views": 0,
+      "total_likes": 0,
+      "total_comments": 0,
+      "total_shares": 0,
+      "engagement_rate": 0.0
+    }
+  },
+  {
+    "id": "vid_funny_20261009_191151_2",
+    "title": "Dime que te salió mal sin decirme que te salió mal 😭",
+    "hook": "Dime que te salió mal sin decirme que te salió mal 😭",
+    "niche": "Fails Épicos & Instant Regret",
+    "created_at": "2026-10-09T19:12:25.574331Z",
+    "duration": 20.0,
+    "status": "limit_reached",
+    "tags": [
+      "Shorts",
+      "Fails",
+      "HumorViral",
+      "InstantRegret",
+      "Comedia",
+      "Risas",
+      "Meme"
+    ],
+    "youtube": {
+      "video_id": null,
+      "url": null,
+      "status": "limit_exceeded",
+      "error": "uploadLimitExceeded: Se alcanzó el límite diario de subidas en YouTube para este canal.",
+      "views": 0,
+      "likes": 0,
+      "comments": 0
+    },
+    "facebook": {
+      "video_id": null,
+      "url": null,
+      "status": "pending_setup",
+      "error": null,
+      "views": 0,
+      "likes": 0,
+      "comments": 0,
+      "shares": 0
+    },
+    "metrics_summary": {
+      "total_views": 0,
+      "total_likes": 0,
+      "total_comments": 0,
+      "total_shares": 0,
+      "engagement_rate": 0.0
+    }
+  },
+  {
+    "id": "vid_funny_20261009_191103_1",
+    "title": "Por qué los hombres vivimos menos, prueba irrefutable 🤡",
+    "hook": "Por qué los hombres vivimos menos, prueba irrefutable 🤡",
+    "niche": "Karma Instantáneo & Risas",
+    "created_at": "2026-10-09T19:11:36.894191Z",
+    "duration": 20.0,
+    "status": "limit_reached",
+    "tags": [
+      "Shorts",
+      "KarmaInstantaneo",
+      "ComediaViral",
+      "PlotTwist",
+      "HumorLatino",
+      "RisasMil"
+    ],
+    "youtube": {
+      "video_id": null,
+      "url": null,
+      "status": "limit_exceeded",
+      "error": "uploadLimitExceeded: Se alcanzó el límite diario de subidas en YouTube para este canal.",
+      "views": 0,
+      "likes": 0,
+      "comments": 0
+    },
+    "facebook": {
+      "video_id": null,
+      "url": null,
+      "status": "pending_setup",
+      "error": null,
+      "views": 0,
+      "likes": 0,
+      "comments": 0,
+      "shares": 0
+    },
+    "metrics_summary": {
+      "total_views": 0,
+      "total_likes": 0,
+      "total_comments": 0,
+      "total_shares": 0,
+      "engagement_rate": 0.0
+    }
+  },
+  {
     "id": "vid_yt_rDwBw100600",
     "title": "Lugar emblemático de la Ciudad de Cali: Sendero de Cristo Rey ",
     "hook": "Lugar emblemático de la Ciudad de Cali: Sendero de Cristo Rey ",
