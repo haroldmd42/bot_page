@@ -113,22 +113,34 @@ def run_publish_flow(dry_run: bool = False, topic: str = None, count: int = 3) -
 
         # Step 3: Distribute to YouTube Shorts
         logger.info("3/4: Publicando en YouTube Shorts...")
-        yt_uploader = YouTubeUploader(dry_run=dry_run)
-        yt_result = yt_uploader.upload_short(
-            file_path=video_path,
-            title=script["title"],
-            description=f"{script['hook']}\n\n{script['voiceover']}\n\n#Shorts #Humor #Comedia #Risas #Memes #Viral",
-            tags=script.get("tags", ["Shorts", "Humor", "Comedia", "Risas"])
-        )
+        try:
+            yt_uploader = YouTubeUploader(dry_run=dry_run)
+            yt_result = yt_uploader.upload_short(
+                file_path=video_path,
+                title=script["title"],
+                description=f"{script['hook']}\n\n{script['voiceover']}\n\n#Shorts #Humor #Comedia #Risas #Memes #Viral",
+                tags=script.get("tags", ["Shorts", "Humor", "Comedia", "Risas"])
+            )
+        except Exception as e:
+            logger.error(f"Error inesperado al subir a YouTube: {e}")
+            yt_result = {"status": "error", "error": str(e), "url": None, "video_id": None}
 
         # Step 4: Distribute to Facebook Reels
         logger.info("4/4: Publicando en Facebook Reels...")
-        fb_uploader = FacebookReelsUploader(dry_run=dry_run)
-        fb_result = fb_uploader.upload_reel(
-            file_path=video_path,
-            title=script["title"],
-            description=f"{script['hook']}\n\n{script['cta']}"
-        )
+        try:
+            fb_uploader = FacebookReelsUploader(dry_run=dry_run)
+            fb_result = fb_uploader.upload_reel(
+                file_path=video_path,
+                title=script["title"],
+                description=f"{script['hook']}\n\n{script['cta']}"
+            )
+        except Exception as e:
+            logger.error(f"Error inesperado al subir a Facebook Reels: {e}")
+            fb_result = {"status": "error", "error": str(e), "url": None, "video_id": None}
+
+        yt_ok = yt_result.get("status") in ["published", "simulated"]
+        fb_ok = fb_result.get("status") in ["published", "simulated"]
+        record_status = "published" if (yt_ok or fb_ok) else "limit_reached"
 
         new_video_record = {
             "id": f"vid_funny_{timestamp_str}_{idx + 1}",
@@ -137,12 +149,13 @@ def run_publish_flow(dry_run: bool = False, topic: str = None, count: int = 3) -
             "niche": script["niche"],
             "created_at": datetime.now().isoformat() + "Z",
             "duration": 20.0,
-            "status": "published",
+            "status": record_status,
             "tags": script.get("tags", []),
             "youtube": {
                 "video_id": yt_result.get("video_id"),
                 "url": yt_result.get("url"),
                 "status": yt_result.get("status"),
+                "error": yt_result.get("error"),
                 "views": 0,
                 "likes": 0,
                 "comments": 0
@@ -151,6 +164,7 @@ def run_publish_flow(dry_run: bool = False, topic: str = None, count: int = 3) -
                 "video_id": fb_result.get("video_id"),
                 "url": fb_result.get("url"),
                 "status": fb_result.get("status"),
+                "error": fb_result.get("error"),
                 "views": 0,
                 "likes": 0,
                 "comments": 0,
@@ -170,7 +184,8 @@ def run_publish_flow(dry_run: bool = False, topic: str = None, count: int = 3) -
             history.insert(0, new_video_record)
         published_records.append(new_video_record)
 
-        logger.info(f"✅ Video {idx + 1}/{count} procesado: {yt_result.get('url')}")
+        logger.info(f"✅ Video {idx + 1}/{count} procesado. YouTube: {yt_result.get('status')} | Facebook: {fb_result.get('status')}")
+
 
         # Rate-limiting pause between uploads
         if idx < count - 1 and not dry_run:

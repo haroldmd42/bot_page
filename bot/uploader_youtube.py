@@ -141,27 +141,70 @@ class YouTubeUploader:
                     pct = int(status.progress() * 100)
                     logger.info(f"Upload progress: {pct}%")
             except HttpError as e:
-                if e.resp.status in [500, 502, 503, 504]:
+                error_str = str(e)
+                if "uploadLimitExceeded" in error_str or "The user has exceeded the number of videos they may upload" in error_str:
+                    logger.warning("⚠️ Límite diario de subida alcanzado en YouTube (uploadLimitExceeded). Tu canal de YouTube ha alcanzado el número máximo de videos permitidos en 24 horas por políticas de YouTube.")
+                    return {
+                        "video_id": None,
+                        "url": None,
+                        "status": "limit_exceeded",
+                        "error": "uploadLimitExceeded: Se alcanzó el límite diario de subidas en YouTube para este canal."
+                    }
+                elif "quotaExceeded" in error_str:
+                    logger.warning("⚠️ Cuota diaria de la API de YouTube excedida (quotaExceeded).")
+                    return {
+                        "video_id": None,
+                        "url": None,
+                        "status": "quota_exceeded",
+                        "error": "quotaExceeded: Límite de cuota diaria de la API de YouTube alcanzado."
+                    }
+                elif e.resp.status in [500, 502, 503, 504]:
                     retry_count += 1
                     if retry_count > max_retries:
-                        raise e
+                        logger.error(f"YouTube server error tras {max_retries} reintentos: {e}")
+                        return {
+                            "video_id": None,
+                            "url": None,
+                            "status": "error",
+                            "error": str(e)
+                        }
                     sleep_time = (2 ** retry_count) + random.uniform(0, 1)
-                    logger.warning(f"Server error {e.resp.status}. Retrying in {sleep_time:.1f}s...")
+                    logger.warning(f"Server error {e.resp.status}. Reintentando en {sleep_time:.1f}s...")
                     time.sleep(sleep_time)
                 else:
                     logger.error(f"YouTube HTTP Error: {e}")
-                    raise e
+                    return {
+                        "video_id": None,
+                        "url": None,
+                        "status": "error",
+                        "error": str(e)
+                    }
             except Exception as e:
                 retry_count += 1
                 if retry_count > max_retries:
-                    raise e
+                    logger.error(f"Error inesperado al subir a YouTube tras reintentos: {e}")
+                    return {
+                        "video_id": None,
+                        "url": None,
+                        "status": "error",
+                        "error": str(e)
+                    }
                 sleep_time = (2 ** retry_count) + random.uniform(0, 1)
-                logger.warning(f"Connection error: {e}. Retrying in {sleep_time:.1f}s...")
+                logger.warning(f"Connection error: {e}. Reintentando en {sleep_time:.1f}s...")
                 time.sleep(sleep_time)
+
+        if not response or not response.get("id"):
+            return {
+                "video_id": None,
+                "url": None,
+                "status": "failed",
+                "error": "Respuesta vacía de YouTube API."
+            }
 
         video_id = response.get("id")
         short_url = f"https://youtube.com/shorts/{video_id}"
         logger.info(f"YouTube Short published successfully! URL: {short_url}")
+
 
         return {
             "video_id": video_id,
