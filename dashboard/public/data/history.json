@@ -1,5 +1,41 @@
 [
   {
+    "id": "vid_yt_rDwBw100600",
+    "title": "Lugar emblemático de la Ciudad de Cali: Sendero de Cristo Rey ",
+    "hook": "Lugar emblemático de la Ciudad de Cali: Sendero de Cristo Rey ",
+    "niche": "Humor & Comedia",
+    "created_at": "2026-07-05T14:43:04Z",
+    "duration": 25.0,
+    "status": "published",
+    "tags": [
+      "Shorts"
+    ],
+    "youtube": {
+      "video_id": "rDwBw100600",
+      "url": "https://youtube.com/shorts/rDwBw100600",
+      "status": "published",
+      "views": 30,
+      "likes": 2,
+      "comments": 0
+    },
+    "facebook": {
+      "video_id": null,
+      "url": null,
+      "status": "pending_setup",
+      "views": 0,
+      "likes": 0,
+      "comments": 0,
+      "shares": 0
+    },
+    "metrics_summary": {
+      "total_views": 30,
+      "total_likes": 2,
+      "total_comments": 0,
+      "total_shares": 0,
+      "engagement_rate": 6.67
+    }
+  },
+  {
     "id": "vid_funny_20261009_150642_1",
     "title": "Nivel de confianza: 1000%. Nivel de habilidad: 0% 😂",
     "hook": "Nivel de confianza: 1000%. Nivel de habilidad: 0% 😂",
@@ -105,7 +141,7 @@
       "video_id": "k2GqJIZDxqg",
       "url": "https://youtube.com/shorts/k2GqJIZDxqg",
       "status": "published",
-      "views": 0,
+      "views": 19,
       "likes": 0,
       "comments": 0
     },
@@ -119,7 +155,7 @@
       "shares": 0
     },
     "metrics_summary": {
-      "total_views": 0,
+      "total_views": 19,
       "total_likes": 0,
       "total_comments": 0,
       "total_shares": 0,
@@ -128,7 +164,7 @@
   },
   {
     "id": "vid_funny_20261009_133542_1",
-    "title": "POV: Tu gato cuando te atrasas 3 minutos en servirle la comida 💀",
+    "title": "POV: Tu gato cuando te atrasas 3 minutos en servirle la comida 💀 #Shorts",
     "hook": "POV: Tu gato cuando te atrasas 3 minutos en servirle la comida 💀",
     "niche": "Animales & Mascotas",
     "created_at": "2026-10-09T13:36:47.353402Z",
@@ -147,8 +183,8 @@
       "video_id": "DcbcUn_4Pow",
       "url": "https://youtube.com/shorts/DcbcUn_4Pow",
       "status": "published",
-      "views": 0,
-      "likes": 0,
+      "views": 203,
+      "likes": 4,
       "comments": 0
     },
     "facebook": {
@@ -161,11 +197,11 @@
       "shares": 0
     },
     "metrics_summary": {
-      "total_views": 0,
-      "total_likes": 0,
+      "total_views": 203,
+      "total_likes": 4,
       "total_comments": 0,
       "total_shares": 0,
-      "engagement_rate": 0.0
+      "engagement_rate": 1.97
     }
   },
   {
@@ -335,7 +371,7 @@
   },
   {
     "id": "vid_20261009_020528",
-    "title": "El Nuevo Algoritmo que está Cambiando Todo en 2026 ⚡",
+    "title": "El Nuevo Algoritmo que está Cambiando Todo en 2026 ⚡ #Shorts",
     "hook": "Si no entiendes cómo funcionan los modelos de razonamiento, te vas a quedar atrás.",
     "niche": "Tech & AI",
     "created_at": "2026-10-09T02:05:44.062096Z",
@@ -352,8 +388,8 @@
       "video_id": "-OPEhfdbD8I",
       "url": "https://youtube.com/shorts/-OPEhfdbD8I",
       "status": "published",
-      "views": 15,
-      "likes": 1,
+      "views": 48,
+      "likes": 2,
       "comments": 2
     },
     "facebook": {
@@ -366,11 +402,11 @@
       "shares": 0
     },
     "metrics_summary": {
-      "total_views": 15,
-      "total_likes": 1,
+      "total_views": 48,
+      "total_likes": 2,
       "total_comments": 2,
       "total_shares": 0,
-      "engagement_rate": 20.0
+      "engagement_rate": 8.33
     }
   }
 ]

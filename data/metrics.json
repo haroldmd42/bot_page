@@ -1,19 +1,19 @@
 {
-  "last_updated": "2026-10-09T09:59:55.156426Z",
+  "last_updated": "2026-10-09T15:07:52.823477Z",
   "overview": {
-    "total_videos": 8,
-    "total_views": 15,
-    "total_likes": 1,
+    "total_videos": 10,
+    "total_views": 300,
+    "total_likes": 8,
     "total_comments": 2,
     "total_shares": 0,
-    "average_engagement_rate": 20.0,
+    "average_engagement_rate": 3.33,
     "top_performing_niche": "Tech & AI",
     "youtube_shorts_monetization": {
       "target_views": 10000000,
-      "current_views": 15,
+      "current_views": 300,
       "percentage": 0.0,
       "estimated_cpm_usd": 0.08,
-      "estimated_earnings_usd": 0.0
+      "estimated_earnings_usd": 0.02
     },
     "facebook_reels_monetization": {
       "target_views": 500000,
@@ -35,17 +35,17 @@
     },
     {
       "date": "2026-10-09",
-      "views": 15,
-      "likes": 1,
+      "views": 300,
+      "likes": 8,
       "comments": 2,
       "shares": 0,
-      "engagement_rate": 20.0,
-      "cumulative_views": 15
+      "engagement_rate": 3.33,
+      "cumulative_views": 300
     }
   ],
   "platform_breakdown": {
     "youtube": {
-      "views": 15,
+      "views": 300,
       "share_pct": 100.0
     },
     "facebook": {
@@ -57,8 +57,8 @@
     {
       "type": "retention_hook",
       "priority": "HIGH",
-      "title": "Potenciar categoría 'Tech & AI'",
-      "description": "Los videos de 'Tech & AI' lideran en retención. Continúa usando ganchos visuales con texto contrastado en los primeros 2 segundos."
+      "title": "Potenciar categoría 'Animales & Mascotas'",
+      "description": "Los videos de 'Animales & Mascotas' lideran en retención. Continúa usando ganchos visuales con texto contrastado en los primeros 2 segundos."
     },
     {
       "type": "audio_optimization",
