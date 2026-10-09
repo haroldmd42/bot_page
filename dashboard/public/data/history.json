@@ -1,5 +1,130 @@
 [
   {
+    "id": "vid_funny_20261009_030027_3",
+    "title": "El plot twist más inesperado que verás en todo tu día 😂",
+    "hook": "El plot twist más inesperado que verás en todo tu día 😂",
+    "niche": "Situaciones Absurdas",
+    "created_at": "2026-10-09T03:00:43.862965Z",
+    "duration": 20.0,
+    "status": "published",
+    "tags": [
+      "Shorts",
+      "ComediaViral",
+      "Memes",
+      "PlotTwist",
+      "HumorLatino",
+      "RisasMil"
+    ],
+    "youtube": {
+      "video_id": "uzhVsEle_fg",
+      "url": "https://youtube.com/shorts/uzhVsEle_fg",
+      "status": "published",
+      "views": 0,
+      "likes": 0,
+      "comments": 0
+    },
+    "facebook": {
+      "video_id": null,
+      "url": null,
+      "status": "pending_setup",
+      "views": 0,
+      "likes": 0,
+      "comments": 0,
+      "shares": 0
+    },
+    "metrics_summary": {
+      "total_views": 0,
+      "total_likes": 0,
+      "total_comments": 0,
+      "total_shares": 0,
+      "engagement_rate": 0.0
+    }
+  },
+  {
+    "id": "vid_funny_20261009_025955_2",
+    "title": "Nadie: Absolutamente nadie: Mi perro cuando escucha una bolsa abrirse 🐶⚡",
+    "hook": "Nadie: Absolutamente nadie: Mi perro cuando escucha una bolsa abrirse 🐶⚡",
+    "niche": "Animales & Mascotas",
+    "created_at": "2026-10-09T03:00:11.874437Z",
+    "duration": 20.0,
+    "status": "published",
+    "tags": [
+      "Shorts",
+      "Humor",
+      "AnimalesGraciosos",
+      "Gatos",
+      "Perros",
+      "Memes",
+      "Risas"
+    ],
+    "youtube": {
+      "video_id": "WpoG4IYsWKI",
+      "url": "https://youtube.com/shorts/WpoG4IYsWKI",
+      "status": "published",
+      "views": 0,
+      "likes": 0,
+      "comments": 0
+    },
+    "facebook": {
+      "video_id": null,
+      "url": null,
+      "status": "pending_setup",
+      "views": 0,
+      "likes": 0,
+      "comments": 0,
+      "shares": 0
+    },
+    "metrics_summary": {
+      "total_views": 0,
+      "total_likes": 0,
+      "total_comments": 0,
+      "total_shares": 0,
+      "engagement_rate": 0.0
+    }
+  },
+  {
+    "id": "vid_funny_20261009_025924_1",
+    "title": "Dime que tienes mala suerte sin decirme que tienes mala suerte... 🤡",
+    "hook": "Dime que tienes mala suerte sin decirme que tienes mala suerte... 🤡",
+    "niche": "Fails Cotidianos",
+    "created_at": "2026-10-09T02:59:40.095380Z",
+    "duration": 20.0,
+    "status": "published",
+    "tags": [
+      "Shorts",
+      "Fails",
+      "Comedia",
+      "Risas",
+      "MalaSuerte",
+      "HumorViral",
+      "Relatable"
+    ],
+    "youtube": {
+      "video_id": "Onfm2i853H0",
+      "url": "https://youtube.com/shorts/Onfm2i853H0",
+      "status": "published",
+      "views": 0,
+      "likes": 0,
+      "comments": 0
+    },
+    "facebook": {
+      "video_id": null,
+      "url": null,
+      "status": "pending_setup",
+      "views": 0,
+      "likes": 0,
+      "comments": 0,
+      "shares": 0
+    },
+    "metrics_summary": {
+      "total_views": 0,
+      "total_likes": 0,
+      "total_comments": 0,
+      "total_shares": 0,
+      "engagement_rate": 0.0
+    }
+  },
+  {
     "id": "vid_20261009_022251",
     "title": "El Nuevo Algoritmo que está Cambiando Todo en 2026 ⚡",
     "hook": "Si no entiendes cómo funcionan los modelos de razonamiento, te vas a quedar atrás.",
