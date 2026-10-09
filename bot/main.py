@@ -38,7 +38,8 @@ if sys.platform == "win32":
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from bot.growth_optimizer import GrowthOptimizer
-from bot.video_engine import run_video_generation_sync
+from bot.funny_clip_manager import FunnyClipManager
+from bot.video_engine import run_funny_video_generation_sync, run_video_generation_sync
 from bot.uploader_youtube import YouTubeUploader
 from bot.uploader_facebook import FacebookReelsUploader
 from bot.analytics_collector import AnalyticsCollector
@@ -66,50 +67,19 @@ def sync_data_to_dashboard():
             logger.info(f"Synced {filename} to dashboard public directory.")
 
 
-def run_publish_flow(dry_run: bool = False, topic: str = None) -> dict:
-    """Executes the full content creation and distribution cycle."""
+def run_publish_flow(dry_run: bool = False, topic: str = None, count: int = 3) -> list:
+    """
+    Executes content creation and distribution for distinct funny videos (default 3 per run).
+    Each video uses a different funny clip, unique comedic hook, and distinct voiceover.
+    """
     logger.info("==================================================")
-    logger.info("🚀 STARTING AUTONOMOUS PUBLISHING PIPELINE")
+    logger.info(f"🚀 INICIANDO PIPELINE DE COMEDIA: {count} VIDEOS VIRALES")
     logger.info("==================================================")
 
-    # Step 1: Growth feedback loop & Script formulation
-    logger.info("1/5: Analyzing metrics & selecting high-converting hook...")
+    clip_manager = FunnyClipManager()
     optimizer = GrowthOptimizer()
-    script = optimizer.generate_optimized_script(custom_topic=topic)
+    scripts = optimizer.generate_batch_scripts(count=count, custom_topic=topic)
 
-    logger.info(f"Selected Niche: {script.get('niche')}")
-    logger.info(f"Selected Title: {script.get('title')}")
-    logger.info(f"Hook: \"{script.get('hook')}\"")
-
-    # Step 2: High definition vertical video rendering
-    timestamp_str = datetime.now().strftime("%Y%m%d_%H%M%S")
-    video_filename = f"short_{timestamp_str}.mp4"
-    logger.info(f"2/5: Generating 9:16 vertical video ({video_filename})...")
-
-    video_path = run_video_generation_sync(script, video_filename)
-    logger.info(f"Video created at: {video_path}")
-
-    # Step 3: Publish to YouTube Shorts
-    logger.info("3/5: Distributing to YouTube Shorts...")
-    yt_uploader = YouTubeUploader(dry_run=dry_run)
-    yt_result = yt_uploader.upload_short(
-        file_path=video_path,
-        title=script["title"],
-        description=f"{script['hook']}\n\n#Shorts #Viral #Growth",
-        tags=script.get("tags", [])
-    )
-
-    # Step 4: Publish to Facebook Reels
-    logger.info("4/5: Distributing to Facebook Reels...")
-    fb_uploader = FacebookReelsUploader(dry_run=dry_run)
-    fb_result = fb_uploader.upload_reel(
-        file_path=video_path,
-        title=script["title"],
-        description=script["hook"]
-    )
-
-    # Step 5: Update history records
-    logger.info("5/5: Recording video in history.json...")
     history_file = "data/history.json"
     history = []
     if os.path.exists(history_file):
@@ -119,55 +89,102 @@ def run_publish_flow(dry_run: bool = False, topic: str = None) -> dict:
         except Exception:
             history = []
 
-    new_video_record = {
-        "id": f"vid_{timestamp_str}",
-        "title": script["title"],
-        "hook": script["hook"],
-        "niche": script["niche"],
-        "created_at": datetime.now().isoformat() + "Z",
-        "duration": 35.0,
-        "status": "published",
-        "tags": script.get("tags", []),
-        "youtube": {
-            "video_id": yt_result.get("video_id"),
-            "url": yt_result.get("url"),
-            "status": yt_result.get("status"),
-            "views": 0,
-            "likes": 0,
-            "comments": 0
-        },
-        "facebook": {
-            "video_id": fb_result.get("video_id"),
-            "url": fb_result.get("url"),
-            "status": fb_result.get("status"),
-            "views": 0,
-            "likes": 0,
-            "comments": 0,
-            "shares": 0
-        },
-        "metrics_summary": {
-            "total_views": 0,
-            "total_likes": 0,
-            "total_comments": 0,
-            "total_shares": 0,
-            "engagement_rate": 0.0
-        }
-    }
+    published_records = []
 
-    # Prepend new video so it appears first
-    history.insert(0, new_video_record)
+    for idx, script in enumerate(scripts):
+        logger.info(f"\n🎬 ──────────────────────────────────────────────")
+        logger.info(f"PROCESANDO VIDEO {idx + 1}/{count}: {script['title']}")
+        logger.info(f"Hook: \"{script['hook']}\"")
+        logger.info(f"Categoría: {script['niche']}")
+        logger.info(f"────────────────────────────────────────────────")
+
+        # Step 1: Obtain a fresh, non-repeated funny clip
+        clip_data = clip_manager.get_next_funny_clip()
+        logger.info(f"1/4: Clip de comedia asignado: '{clip_data.get('title')}' (ID: {clip_data.get('id')})")
+        clip_path = clip_manager.download_clip(clip_data)
+
+        # Step 2: Render funny 9:16 vertical video with meme overlays and voiceover
+        timestamp_str = datetime.now().strftime("%Y%m%d_%H%M%S")
+        video_filename = f"funny_{timestamp_str}_{idx + 1}.mp4"
+        logger.info(f"2/4: Renderizando Short cómico 9:16 ({video_filename})...")
+
+        video_path = run_funny_video_generation_sync(script, clip_path, video_filename)
+
+        # Step 3: Distribute to YouTube Shorts
+        logger.info("3/4: Publicando en YouTube Shorts...")
+        yt_uploader = YouTubeUploader(dry_run=dry_run)
+        yt_result = yt_uploader.upload_short(
+            file_path=video_path,
+            title=script["title"],
+            description=f"{script['hook']}\n\n{script['voiceover']}\n\n#Shorts #Humor #Comedia #Risas #Memes #Viral",
+            tags=script.get("tags", ["Shorts", "Humor", "Comedia", "Risas"])
+        )
+
+        # Step 4: Distribute to Facebook Reels
+        logger.info("4/4: Publicando en Facebook Reels...")
+        fb_uploader = FacebookReelsUploader(dry_run=dry_run)
+        fb_result = fb_uploader.upload_reel(
+            file_path=video_path,
+            title=script["title"],
+            description=f"{script['hook']}\n\n{script['cta']}"
+        )
+
+        new_video_record = {
+            "id": f"vid_funny_{timestamp_str}_{idx + 1}",
+            "title": script["title"],
+            "hook": script["hook"],
+            "niche": script["niche"],
+            "created_at": datetime.now().isoformat() + "Z",
+            "duration": 20.0,
+            "status": "published",
+            "tags": script.get("tags", []),
+            "youtube": {
+                "video_id": yt_result.get("video_id"),
+                "url": yt_result.get("url"),
+                "status": yt_result.get("status"),
+                "views": 0,
+                "likes": 0,
+                "comments": 0
+            },
+            "facebook": {
+                "video_id": fb_result.get("video_id"),
+                "url": fb_result.get("url"),
+                "status": fb_result.get("status"),
+                "views": 0,
+                "likes": 0,
+                "comments": 0,
+                "shares": 0
+            },
+            "metrics_summary": {
+                "total_views": 0,
+                "total_likes": 0,
+                "total_comments": 0,
+                "total_shares": 0,
+                "engagement_rate": 0.0
+            }
+        }
+
+        # Add to beginning of history
+        history.insert(0, new_video_record)
+        published_records.append(new_video_record)
+
+        logger.info(f"✅ Video {idx + 1}/{count} publicado: {yt_result.get('url')}")
+
+        # Rate-limiting pause between uploads
+        if idx < count - 1 and not dry_run:
+            logger.info("Pausando 15 segundos antes del siguiente video...")
+            time.sleep(15)
+
+    # Save all newly created records
     with open(history_file, "w", encoding="utf-8") as f:
         json.dump(history, f, indent=2, ensure_ascii=False)
 
     sync_data_to_dashboard()
 
     logger.info("==================================================")
-    logger.info(f"✅ VIDEO PUBLISHED SUCCESSFULLY: {script['title']}")
-    logger.info(f"   YouTube: {yt_result.get('url')}")
-    logger.info(f"   Facebook: {fb_result.get('url')}")
+    logger.info(f"🎉 BATCH COMPLETADO: {len(published_records)} VIDEOS VIRALES PUBLICADOS")
     logger.info("==================================================")
-
-    return new_video_record
+    return published_records
 
 
 def run_analytics_flow():
@@ -220,15 +237,21 @@ def main():
         default=None,
         help="Custom topic or theme override for the video script"
     )
+    parser.add_argument(
+        "--count",
+        type=int,
+        default=3,
+        help="Cantidad de videos distintos a generar y publicar (default: 3)"
+    )
 
     args = parser.parse_args()
 
     if args.mode == "publish":
-        run_publish_flow(dry_run=args.dry_run, topic=args.topic)
+        run_publish_flow(dry_run=args.dry_run, topic=args.topic, count=args.count)
     elif args.mode == "analytics":
         run_analytics_flow()
     elif args.mode == "full":
-        run_publish_flow(dry_run=args.dry_run, topic=args.topic)
+        run_publish_flow(dry_run=args.dry_run, topic=args.topic, count=args.count)
         time.sleep(2)
         run_analytics_flow()
 

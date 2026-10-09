@@ -6,6 +6,10 @@ on:
     - cron: '0 14 * * *'
   workflow_dispatch:
     inputs:
+      count:
+        description: 'Cantidad de videos diferentes a publicar (ej: 3)'
+        required: false
+        default: '3'
       topic:
         description: 'Tema personalizado para el video (opcional)'
         required: false
@@ -52,14 +56,17 @@ jobs:
           YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
           FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
           FB_PAGE_ACCESS_TOKEN: ${{ secrets.FB_PAGE_ACCESS_TOKEN }}
+          PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
           DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
         run: |
           TOPIC_FLAG=""
           if [ -n "${{ github.event.inputs.topic }}" ]; then
             TOPIC_FLAG="--topic '${{ github.event.inputs.topic }}'"
           fi
+
+          COUNT_ARG="--count ${{ github.event.inputs.count || '3' }}"
           
-          python bot/main.py --mode publish $TOPIC_FLAG
+          python bot/main.py --mode publish $COUNT_ARG $TOPIC_FLAG
 
       - name: Commit & Push Updated History
         uses: stefanzweifel/git-auto-commit-action@v5

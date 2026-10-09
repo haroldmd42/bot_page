@@ -1,12 +1,12 @@
 """
 growth_optimizer.py
 -------------------
-Analyzes performance history from Meta Reels & YouTube Shorts to optimize future video creation.
-Implements the feedback loop:
-1. Calculates engagement rate and viral multipliers across published videos.
-2. Identifies high-performing hooks, keywords, and pacing archetypes.
-3. Generates high-converting Hook-Value-CTA scripts prioritized by historical winners.
-4. Produces actionable growth and monetization suggestions for the dashboard.
+Comedic Growth Optimizer and viral humor script generator for YouTube Shorts & Reels.
+Generates unique, high-retention comedy formats:
+- POV Relatable memes
+- Hilarious pet & animal fails
+- Clumsy & unexpected comedic plot twists
+Supports generating batches of 3 completely distinct videos per day without repetition.
 """
 
 import json
@@ -26,37 +26,79 @@ class GrowthOptimizer:
         self.history: List[Dict[str, Any]] = self._load_json(history_file, default=[])
         self.metrics: Dict[str, Any] = self._load_json(metrics_file, default={})
 
-        # Predefined proven viral frameworks
-        self.hook_templates = [
+        # Comedic categories and angle templates
+        self.comedy_themes = [
             {
-                "type": "controversial_truth",
-                "template": "Por qué NO deberías {action} en {year} (La cruda realidad)",
-                "weight": 1.4,
-                "niche": "Tech & AI"
+                "category": "funny_animals",
+                "niche": "Animales & Mascotas",
+                "hooks": [
+                    "POV: Tu gato cuando te atrasas 3 minutos en servirle la comida 💀",
+                    "El perro que entendió todo sobre la vida en 5 segundos 😂",
+                    "Dramatismo nivel: Este gato después de un susto absurdo 🐱🎭",
+                    "Nadie: Absolutamente nadie: Mi perro cuando escucha una bolsa abrirse 🐶⚡",
+                    "Prueba irrefutable de que los gatos no son de este planeta 🛸😂"
+                ],
+                "voiceovers": [
+                    "Mira la cara de absoluta indignación. No hay perdón, no hay olvido. Solo juicio silencioso.",
+                    "Intentó mantener la dignidad, pero el suelo tenía otros planes. Diez de diez en ejecución.",
+                    "Cuando crees que tienes todo bajo control y de pronto... la física decide no colaborar.",
+                    "La concentración era máxima. La confianza, indestructible. El resultado... catastróficamente gracioso.",
+                    "Ese momento exacto donde se da cuenta de que cometió un grave error de cálculo."
+                ],
+                "punchlines": [
+                    "¿Quién más tiene una mascota así de dramática? 😂",
+                    "Etiqueta a tu amigo que reacciona exactamente igual 🐶",
+                    "Dime que no soy el único que no puede parar de reír 💀"
+                ],
+                "tags": ["Shorts", "Humor", "AnimalesGraciosos", "Gatos", "Perros", "Memes", "Risas"]
             },
             {
-                "type": "forbidden_knowledge",
-                "template": "3 secretos de {topic} que las grandes empresas no quieren que sepas 🤫",
-                "weight": 1.3,
-                "niche": "Tech & AI"
+                "category": "relatable_fails",
+                "niche": "Fails Cotidianos",
+                "hooks": [
+                    "POV: Yo intentando ser productivo un lunes a las 8 AM 💀",
+                    "Nivel de confianza: 1000%. Nivel de habilidad: 0% 😂",
+                    "Dime que tienes mala suerte sin decirme que tienes mala suerte... 🤡",
+                    "Cuando dices 'tranquilo, yo sé exactamente lo que hago' 😭💥",
+                    "Mi última neurona intentando sobrevivir el día de hoy 🧠⚡"
+                ],
+                "voiceovers": [
+                    "Todo iba según el plan hasta que el universo decidió darle una lección de humildad.",
+                    "No se puede culpar al esfuerzo, pero el resultado merece un premio al intento más torpe del año.",
+                    "Segundos antes de la tragedia. La sonrisa todavía en el rostro. Inocencia pura.",
+                    "Si alguna vez te sientes torpe, recuerda que este video existe para hacerte sentir mejor.",
+                    "La gravedad nunca descansa, y en este momento decidió cobrar venganza personal."
+                ],
+                "punchlines": [
+                    "¿Te ha pasado algo así? Cuéntalo en comentarios 😂👇",
+                    "Comparte con esa persona que siempre es un desastre andante 💀",
+                    "Dale like si te dolió hasta a ti de solo verlo 😭"
+                ],
+                "tags": ["Shorts", "Fails", "Comedia", "Risas", "MalaSuerte", "HumorViral", "Relatable"]
             },
             {
-                "type": "pain_point_relief",
-                "template": "¿Cansado de perder horas en {problem}? Haz esto en 60 segundos.",
-                "weight": 1.2,
-                "niche": "Productividad"
-            },
-            {
-                "type": "counter_intuitive_rule",
-                "template": "La regla del 1% para {goal} que los millonarios aplican a diario 📈",
-                "weight": 1.35,
-                "niche": "Finanzas"
-            },
-            {
-                "type": "insider_hack",
-                "template": "El truco definitivo de {tool} que el 95% de la gente no aprovecha ⚡",
-                "weight": 1.25,
-                "niche": "Tech Hacks"
+                "category": "unexpected_comedy",
+                "niche": "Situaciones Absurdas",
+                "hooks": [
+                    "El plot twist más inesperado que verás en todo tu día 😂",
+                    "¿Por qué los hombres vivimos menos? Ejemplo número 47 💀",
+                    "Cuando el plan B es 100 veces peor que el plan A 🤡",
+                    "La tranquilidad duró exactamente 2 segundos y medio ⏳💥",
+                    "No puedo con este nivel de caos en tan poco tiempo 😭"
+                ],
+                "voiceovers": [
+                    "Pensó que nadie lo estaba grabando. El destino tenía otros planes y una cámara en alta definición.",
+                    "Hay malas ideas, peores ideas, y luego está esta genialidad absoluta que salió como debía salir.",
+                    "Miren ese instante de duda. Supo que no debía hacerlo, y aún así, la curiosidad ganó.",
+                    "El verdadero significado de 'espera lo inesperado'. Nadie en la sala estaba preparado para esto.",
+                    "Un aplauso para este genio incomprendido que desafió la lógica y perdió con estilo."
+                ],
+                "punchlines": [
+                    "Comenta del 1 al 10 qué tan épico fue el remate 😂",
+                    "Sígueme para tu dosis diaria de risas sin sentido 🚀",
+                    "¿Esperabas ese final o te tomó por sorpresa? 💀"
+                ],
+                "tags": ["Shorts", "ComediaViral", "Memes", "PlotTwist", "HumorLatino", "RisasMil"]
             }
         ]
 
@@ -65,178 +107,53 @@ class GrowthOptimizer:
             try:
                 with open(filepath, "r", encoding="utf-8") as f:
                     return json.load(f)
-            except Exception as e:
-                logger.warning(f"Error loading {filepath}: {e}. Using fallback default.")
+            except Exception:
+                return default
         return default
 
-    def analyze_performance(self) -> Dict[str, Any]:
-        """Calculates global metrics, top niches, and identifies viral drivers."""
-        if not self.history:
-            return {
-                "total_videos": 0,
-                "average_views": 0,
-                "average_engagement": 0.0,
-                "top_niche": "Tech & AI",
-                "viral_hooks": [],
-                "recommendations": []
-            }
+    def generate_batch_scripts(self, count: int = 3, custom_topic: Optional[str] = None) -> List[Dict[str, Any]]:
+        """
+        Generates a batch of distinct funny scripts (e.g. 3 unique videos per run).
+        Ensures diverse comedic categories and unique hooks.
+        """
+        scripts = []
+        recent_titles = [v.get("title", "") for v in self.history[:10]]
 
-        total_views = sum(v.get("metrics_summary", {}).get("total_views", 0) for v in self.history)
-        avg_views = total_views / max(len(self.history), 1)
+        # Cycle through themes to guarantee variety
+        selected_themes = list(self.comedy_themes)
+        random.shuffle(selected_themes)
 
-        total_engagement = sum(v.get("metrics_summary", {}).get("engagement_rate", 0) for v in self.history)
-        avg_engagement = total_engagement / max(len(self.history), 1)
+        for i in range(count):
+            theme = selected_themes[i % len(selected_themes)]
 
-        # Performance by niche
-        niche_stats: Dict[str, Dict[str, float]] = {}
-        for item in self.history:
-            niche = item.get("niche", "General")
-            views = item.get("metrics_summary", {}).get("total_views", 0)
-            eng = item.get("metrics_summary", {}).get("engagement_rate", 0)
+            # Filter unused hooks
+            available_hooks = [h for h in theme["hooks"] if h not in recent_titles]
+            hook = random.choice(available_hooks) if available_hooks else random.choice(theme["hooks"])
 
-            if niche not in niche_stats:
-                niche_stats[niche] = {"count": 0, "views": 0, "total_eng": 0}
-            niche_stats[niche]["count"] += 1
-            niche_stats[niche]["views"] += views
-            niche_stats[niche]["total_eng"] += eng
+            voiceover = random.choice(theme["voiceovers"])
+            punchline = random.choice(theme["punchlines"])
 
-        top_niche = max(
-            niche_stats.keys(),
-            key=lambda k: niche_stats[k]["views"] / max(niche_stats[k]["count"], 1)
-        ) if niche_stats else "Tech & AI"
+            title = hook
+            if custom_topic and i == 0:
+                title = f"{custom_topic} 😂 #Shorts"
+                hook = f"POV: {custom_topic} 💀"
 
-        # Find viral videos (views > 1.2x average)
-        viral_videos = [
-            v for v in self.history
-            if v.get("metrics_summary", {}).get("total_views", 0) >= avg_views * 1.15
-        ]
-        viral_videos.sort(
-            key=lambda x: x.get("metrics_summary", {}).get("total_views", 0),
-            reverse=True
-        )
+            full_speech = f"{hook} {voiceover} {punchline}"
 
-        top_hooks = [v.get("hook", "") for v in viral_videos[:3] if v.get("hook")]
+            scripts.append({
+                "category": theme["category"],
+                "niche": theme["niche"],
+                "title": title[:95],
+                "hook": hook,
+                "voiceover": voiceover,
+                "cta": punchline,
+                "full_speech": full_speech,
+                "tags": theme["tags"]
+            })
 
-        # Generate fresh optimization recommendations
-        recommendations = self.generate_optimization_tips(top_niche, avg_views, avg_engagement)
-
-        return {
-            "total_videos": len(self.history),
-            "average_views": round(avg_views, 2),
-            "average_engagement": round(avg_engagement, 2),
-            "top_niche": top_niche,
-            "top_hooks": top_hooks,
-            "recommendations": recommendations
-        }
-
-    def generate_optimization_tips(self, top_niche: str, avg_views: float, avg_eng: float) -> List[Dict[str, str]]:
-        """Generates real-time suggestions based on data."""
-        tips = [
-            {
-                "type": "niche_focus",
-                "priority": "HIGH",
-                "title": f"Priorizar contenido de '{top_niche}'",
-                "description": f"El nicho {top_niche} está superando el promedio de reproducciones con una retención superior. Mantén al menos el 60% de publicaciones en esta temática."
-            },
-            {
-                "type": "hook_velocity",
-                "priority": "HIGH",
-                "title": "Optimización del Micro-Hook (0-2s)",
-                "description": "El gancho debe aparecer en los primeros 1.5 segundos con texto en dos líneas amarillo y blanco sobre fondo oscuro para maximizar la tasa de swipe-through."
-            },
-            {
-                "type": "cta_loop",
-                "priority": "MEDIUM",
-                "title": "Llamado a la acción con bucle infinito",
-                "description": "Conectar la última frase del video de vuelta al inicio permite que el algoritmo registre 120%+ de tiempo de reproducción en YouTube Shorts."
-            }
-        ]
-        return tips
+        return scripts
 
     def generate_optimized_script(self, custom_topic: Optional[str] = None) -> Dict[str, Any]:
-        """
-        Uses historical winners to formulate the next Hook-Value-CTA video script.
-        Follows the golden 3-act viral structure:
-        - 0-3s: Disruptive hook
-        - Value: 3 actionable, punchy bullet points (every 3-4 seconds visual shift)
-        - CTA: Engaging question + follow prompt
-        """
-        perf = self.analyze_performance()
-        chosen_niche = perf.get("top_niche", "Tech & AI")
-        year = str(datetime.now().year)
-
-        # Knowledge library of high-impact scripts tailored by niche
-        scripts_database = {
-            "Tech & AI": [
-                {
-                    "title": f"3 Herramientas de IA que te Ahorran 10 Horas a la Semana en {year} 🤖",
-                    "hook": "¿Sigues trabajando manualmente? Estas 3 IAs hacen tu trabajo en segundos.",
-                    "niche": "Tech & AI",
-                    "points": [
-                        "Número 1: Perplexity AI. Dile adiós a buscar en 10 páginas de Google; te da la respuesta exacta citada.",
-                        "Número 2: Claude Sonnet. Escribe documentos y código con precisión humana superior.",
-                        "Número 3: Make punto com. Conecta tus aplicaciones y automatiza tareas repetitivas en piloto automático."
-                    ],
-                    "cta": "¿Cuál de estas vas a probar primero? Coméntala y sígueme para dominar la inteligencia artificial.",
-                    "tags": ["Shorts", "InteligenciaArtificial", "Productividad", "TechTips", "HerramientasIA"]
-                },
-                {
-                    "title": f"El Nuevo Algoritmo que está Cambiando Todo en {year} ⚡",
-                    "hook": "Si no entiendes cómo funcionan los modelos de razonamiento, te vas a quedar atrás.",
-                    "niche": "Tech & AI",
-                    "points": [
-                        "Punto clave: La IA ya no solo adivina palabras, ahora razona paso a paso.",
-                        "Segundo: Quienes aprendan a formular problemas resolverán tareas complejas en minutos.",
-                        "Tercero: Automatiza flujos completos, no solo respuestas sueltas."
-                    ],
-                    "cta": "Guarda este video para repasar los conceptos y comparte con un amigo que deba actualizarse.",
-                    "tags": ["Shorts", "IA", "FuturoTech", "Innovacion", "Algoritmos"]
-                }
-            ],
-            "Productividad": [
-                {
-                    "title": f"La Regla de los 2 Minutos para Destruir la Procrastinación en {year} ⏱️",
-                    "hook": "Si te toma menos de dos minutos, ¡hazlo ya! Esta regla cambiará tu disciplina.",
-                    "niche": "Productividad",
-                    "points": [
-                        "Paso uno: Si una tarea tarda menos de 120 segundos, ejecútala inmediatamente sin pensar.",
-                        "Paso dos: Divide grandes proyectos en micro-bloques de 15 minutos con temporizador.",
-                        "Paso tres: Elimina las notificaciones de tu teléfono mientras estés en modo foco."
-                    ],
-                    "cta": "¿Cuál es esa tarea que estás posponiendo hoy? Déjala en comentarios y oblígate a cumplirla.",
-                    "tags": ["Shorts", "Productividad", "Disciplina", "Habitos", "Enfoque"]
-                }
-            ],
-            "Finanzas": [
-                {
-                    "title": f"3 Hábitos con tu Dinero que te Mantienen Atrapado en {year} 💸",
-                    "hook": "¿Sientes que trabajas duro pero tu cuenta bancaria sigue igual a final de mes?",
-                    "niche": "Finanzas",
-                    "points": [
-                        "Error uno: Dejar tu fondo de emergencia en una cuenta corriente que paga cero interés.",
-                        "Error dos: Financiar pasivos con tarjeta de crédito pagando tasas del 30%.",
-                        "Acierto clave: Automatizar el 15% de tu ingreso a un fondo indexado apenas cobres."
-                    ],
-                    "cta": "¿Cuál es tu meta financiera para este año? Sígueme y construyamos riqueza juntos.",
-                    "tags": ["Shorts", "FinanzasPersonales", "Dinero", "Inversiones", "LibertadFinanciera"]
-                }
-            ]
-        }
-
-        # Select matching category or fallback
-        niche_pool = scripts_database.get(chosen_niche, scripts_database["Tech & AI"])
-        chosen_script = random.choice(niche_pool)
-
-        if custom_topic:
-            chosen_script["title"] = f"{custom_topic} ({year}) 🚀"
-            chosen_script["hook"] = f"Todo lo que necesitas saber sobre {custom_topic} en menos de 45 segundos."
-
-        # Compile full speech text for voice synthesis
-        full_speech = (
-            f"{chosen_script['hook']} "
-            + " ".join(chosen_script["points"])
-            + f" {chosen_script['cta']}"
-        )
-
-        chosen_script["full_speech"] = full_speech
-        return chosen_script
+        """Single script generator."""
+        batch = self.generate_batch_scripts(count=1, custom_topic=custom_topic)
+        return batch[0]

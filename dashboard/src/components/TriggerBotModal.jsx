@@ -15,6 +15,7 @@ import {
 
 export default function TriggerBotModal({ isOpen, onClose, repoOwner = 'haroldmd42', repoName = 'bot_page' }) {
   const [topic, setTopic] = useState('');
+  const [videoCount, setVideoCount] = useState('3');
   const [githubToken, setGithubToken] = useState('');
   const [saveToken, setSaveToken] = useState(true);
   const [status, setStatus] = useState('idle'); // 'idle' | 'loading' | 'success' | 'error'
@@ -46,13 +47,14 @@ export default function TriggerBotModal({ isOpen, onClose, repoOwner = 'haroldmd
     }
 
     setStatus('loading');
-    setStatusMessage('Enviando orden a GitHub Actions...');
+    setStatusMessage(`Enviando orden a GitHub Actions para publicar ${videoCount} videos...`);
 
     try {
       const url = `https://api.github.com/repos/${repoOwner}/${repoName}/actions/workflows/auto_publish.yml/dispatches`;
       const payload = {
         ref: 'main',
         inputs: {
+          count: videoCount,
           topic: topic.trim() || '',
           dry_run: false
         }
@@ -123,17 +125,44 @@ export default function TriggerBotModal({ isOpen, onClose, repoOwner = 'haroldmd
           <div>
             <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5 flex items-center gap-1.5">
               <Sparkles className="w-3.5 h-3.5 text-yellow-400" />
-              Tema o Título del Video (Opcional)
+              Tema o Título Cómico (Opcional)
             </label>
             <input
               type="text"
-              placeholder="Ej: 3 Webs con IA que te ahorran 5 horas al día (o déjalo vacío para IA automática)"
+              placeholder="Ej: Gatos dramáticos haciendo drama total (o déjalo vacío para IA automática)"
               value={topic}
               onChange={(e) => setTopic(e.target.value)}
               className="w-full bg-slate-950 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-yellow-400"
             />
             <p className="text-[11px] text-slate-400 mt-1">
-              Si lo dejas vacío, el <strong>Growth Optimizer</strong> seleccionará el gancho viral de mayor rendimiento histórico.
+              Si lo dejas vacío, el <strong>Growth Optimizer</strong> seleccionará clips cómicos y ganchos de alta retención.
+            </p>
+          </div>
+
+          {/* Video Count Selector */}
+          <div>
+            <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5 flex items-center gap-1.5">
+              <Play className="w-3.5 h-3.5 text-yellow-400 fill-yellow-400" />
+              Cantidad de Videos a Generar:
+            </label>
+            <div className="grid grid-cols-3 gap-2">
+              {['1', '2', '3'].map((num) => (
+                <button
+                  key={num}
+                  type="button"
+                  onClick={() => setVideoCount(num)}
+                  className={`py-2 px-3 rounded-xl text-xs font-bold border transition-all ${
+                    videoCount === num
+                      ? 'bg-yellow-400 text-slate-950 border-yellow-400 shadow-md shadow-yellow-500/20'
+                      : 'bg-slate-950 text-slate-400 border-slate-800 hover:border-slate-700'
+                  }`}
+                >
+                  {num} {num === '1' ? 'Video' : 'Videos'} {num === '3' ? '🔥' : ''}
+                </button>
+              ))}
+            </div>
+            <p className="text-[11px] text-slate-400 mt-1">
+              Generará {videoCount} videos únicos con clips cómicos y remates totalmente diferentes.
             </p>
           </div>
 
