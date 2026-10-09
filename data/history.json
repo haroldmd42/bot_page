@@ -1,5 +1,45 @@
 [
   {
+    "id": "vid_20261009_020528",
+    "title": "El Nuevo Algoritmo que está Cambiando Todo en 2026 ⚡",
+    "hook": "Si no entiendes cómo funcionan los modelos de razonamiento, te vas a quedar atrás.",
+    "niche": "Tech & AI",
+    "created_at": "2026-10-09T02:05:44.062096Z",
+    "duration": 35.0,
+    "status": "published",
+    "tags": [
+      "Shorts",
+      "IA",
+      "FuturoTech",
+      "Innovacion",
+      "Algoritmos"
+    ],
+    "youtube": {
+      "video_id": "-OPEhfdbD8I",
+      "url": "https://youtube.com/shorts/-OPEhfdbD8I",
+      "status": "published",
+      "views": 0,
+      "likes": 0,
+      "comments": 0
+    },
+    "facebook": {
+      "video_id": "fb_1791511544",
+      "url": "https://facebook.com/reel/fb_1791511544",
+      "status": "simulated_success",
+      "views": 6410,
+      "likes": 555,
+      "comments": 85,
+      "shares": 136
+    },
+    "metrics_summary": {
+      "total_views": 6410,
+      "total_likes": 555,
+      "total_comments": 85,
+      "total_shares": 136,
+      "engagement_rate": 12.11
+    }
+  },
+  {
     "id": "vid_20261008_202507",
     "title": "5 Agentes Autónomos de IA que Dominarán el Mercado (2026) 🚀",
     "hook": "Todo lo que necesitas saber sobre 5 Agentes Autónomos de IA que Dominarán el Mercado en menos de 45 segundos.",
@@ -27,16 +67,16 @@
       "url": "https://facebook.com/reel/fb_1791509107",
       "status": "simulated_success",
       "views": 6138,
-      "likes": 278,
+      "likes": 295,
       "comments": 75,
       "shares": 128
     },
     "metrics_summary": {
       "total_views": 8685,
-      "total_likes": 682,
+      "total_likes": 699,
       "total_comments": 134,
       "total_shares": 128,
-      "engagement_rate": 10.87
+      "engagement_rate": 11.07
     }
   },
   {
@@ -59,8 +99,8 @@
       "url": "https://youtube.com/shorts/yt_1791509089",
       "status": "simulated_success",
       "views": 4778,
-      "likes": 330,
-      "comments": 46
+      "likes": 456,
+      "comments": 62
     },
     "facebook": {
       "video_id": "fb_1791509089",
@@ -68,15 +108,15 @@
       "status": "simulated_success",
       "views": 6620,
       "likes": 492,
-      "comments": 63,
+      "comments": 87,
       "shares": 155
     },
     "metrics_summary": {
       "total_views": 11398,
-      "total_likes": 822,
-      "total_comments": 109,
+      "total_likes": 948,
+      "total_comments": 149,
       "total_shares": 155,
-      "engagement_rate": 9.53
+      "engagement_rate": 10.98
     }
   },
   {
