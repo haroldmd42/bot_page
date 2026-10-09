@@ -1,0 +1,88 @@
+name: Fetch Analytics & Deploy Dashboard
+
+on:
+  schedule:
+    # Runs every 12 hours (00:00 and 12:00 UTC)
+    - cron: '0 0,12 * * *'
+  workflow_dispatch:
+  workflow_run:
+    workflows: ["Auto Publish (Meta Reels & YouTube Shorts)"]
+    types:
+      - completed
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  collect-analytics:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Extract Analytics & Compute Growth Loop
+        env:
+          YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
+          YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
+          YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
+          FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
+          FB_PAGE_ACCESS_TOKEN: ${{ secrets.FB_PAGE_ACCESS_TOKEN }}
+        run: |
+          python bot/main.py --mode analytics
+
+      - name: Commit & Push Updated Analytics
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore(analytics): sync social metrics and feedback loop [skip ci]"
+          file_pattern: "data/* dashboard/public/data/*"
+          commit_user_name: "github-actions[bot]"
+          commit_user_email: "github-actions[bot]@users.noreply.github.com"
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+          cache-dependency-path: dashboard/package-lock.json
+
+      - name: Build React Dashboard
+        working-directory: ./dashboard
+        run: |
+          npm ci || npm install
+          npm run build
+
+      - name: Upload Pages Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dashboard/dist
+
+  deploy-dashboard:
+    needs: collect-analytics
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

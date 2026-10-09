@@ -1,0 +1,70 @@
+name: Auto Publish (Meta Reels & YouTube Shorts)
+
+on:
+  schedule:
+    # Run daily at 14:00 UTC (9:00 AM EST)
+    - cron: '0 14 * * *'
+  workflow_dispatch:
+    inputs:
+      topic:
+        description: 'Tema personalizado para el video (opcional)'
+        required: false
+        default: ''
+      dry_run:
+        description: 'Simular sin subir a APIs reales (true / false)'
+        type: boolean
+        required: false
+        default: false
+
+permissions:
+  contents: write
+
+jobs:
+  generate-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - name: Install System Dependencies (FFmpeg)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+
+      - name: Install Python Packages
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run Autonomous Video Generation & Publishing
+        env:
+          YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
+          YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
+          YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
+          FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
+          FB_PAGE_ACCESS_TOKEN: ${{ secrets.FB_PAGE_ACCESS_TOKEN }}
+          DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
+        run: |
+          TOPIC_FLAG=""
+          if [ -n "${{ github.event.inputs.topic }}" ]; then
+            TOPIC_FLAG="--topic '${{ github.event.inputs.topic }}'"
+          fi
+          
+          python bot/main.py --mode publish $TOPIC_FLAG
+
+      - name: Commit & Push Updated History
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore(data): auto-publish video update [skip ci]"
+          file_pattern: "data/* dashboard/public/data/*"
+          commit_user_name: "github-actions[bot]"
+          commit_user_email: "github-actions[bot]@users.noreply.github.com"

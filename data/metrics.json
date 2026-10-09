@@ -1,0 +1,112 @@
+{
+  "last_updated": "2026-10-08T20:25:09.950312Z",
+  "overview": {
+    "total_videos": 7,
+    "total_views": 664483,
+    "total_likes": 57304,
+    "total_comments": 6139,
+    "total_shares": 8383,
+    "average_engagement_rate": 10.81,
+    "top_performing_niche": "Tech & AI",
+    "youtube_shorts_monetization": {
+      "target_views": 10000000,
+      "current_views": 304325,
+      "percentage": 3.04,
+      "estimated_cpm_usd": 0.08,
+      "estimated_earnings_usd": 24.35
+    },
+    "facebook_reels_monetization": {
+      "target_views": 500000,
+      "current_views": 360158,
+      "percentage": 72.03,
+      "estimated_cpm_usd": 0.15,
+      "estimated_earnings_usd": 54.02
+    }
+  },
+  "growth_trends": [
+    {
+      "date": "2026-10-01",
+      "views": 110600,
+      "likes": 9070,
+      "comments": 800,
+      "shares": 1240,
+      "engagement_rate": 9.87,
+      "cumulative_views": 110600
+    },
+    {
+      "date": "2026-10-02",
+      "views": 59300,
+      "likes": 4400,
+      "comments": 326,
+      "shares": 380,
+      "engagement_rate": 8.61,
+      "cumulative_views": 169900
+    },
+    {
+      "date": "2026-10-03",
+      "views": 163600,
+      "likes": 14720,
+      "comments": 1420,
+      "shares": 2150,
+      "engagement_rate": 11.18,
+      "cumulative_views": 333500
+    },
+    {
+      "date": "2026-10-04",
+      "views": 213600,
+      "likes": 19600,
+      "comments": 2720,
+      "shares": 3410,
+      "engagement_rate": 12.04,
+      "cumulative_views": 547100
+    },
+    {
+      "date": "2026-10-05",
+      "views": 97300,
+      "likes": 8010,
+      "comments": 630,
+      "shares": 920,
+      "engagement_rate": 9.82,
+      "cumulative_views": 644400
+    },
+    {
+      "date": "2026-10-08",
+      "views": 664483,
+      "likes": 57304,
+      "comments": 6139,
+      "shares": 8383,
+      "engagement_rate": 10.81,
+      "cumulative_views": 664483
+    }
+  ],
+  "platform_breakdown": {
+    "youtube": {
+      "views": 304325,
+      "share_pct": 45.8
+    },
+    "facebook": {
+      "views": 360158,
+      "share_pct": 54.2
+    }
+  },
+  "optimization_recommendations": [
+    {
+      "type": "niche_focus",
+      "priority": "HIGH",
+      "title": "Priorizar contenido de 'Tech & AI'",
+      "description": "El nicho Tech & AI está superando el promedio de reproducciones con una retención superior. Mantén al menos el 60% de publicaciones en esta temática."
+    },
+    {
+      "type": "hook_velocity",
+      "priority": "HIGH",
+      "title": "Optimización del Micro-Hook (0-2s)",
+      "description": "El gancho debe aparecer en los primeros 1.5 segundos con texto en dos líneas amarillo y blanco sobre fondo oscuro para maximizar la tasa de swipe-through."
+    },
+    {
+      "type": "cta_loop",
+      "priority": "MEDIUM",
+      "title": "Llamado a la acción con bucle infinito",
+      "description": "Conectar la última frase del video de vuelta al inicio permite que el algoritmo registre 120%+ de tiempo de reproducción en YouTube Shorts."
+    }
+  ]
+}
