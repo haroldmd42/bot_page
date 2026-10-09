@@ -1,7 +1,7 @@
 {
-  "last_updated": "2026-10-09T02:23:37.839616Z",
+  "last_updated": "2026-10-09T09:59:55.156426Z",
   "overview": {
-    "total_videos": 2,
+    "total_videos": 8,
     "total_views": 15,
     "total_likes": 1,
     "total_comments": 2,
@@ -55,22 +55,22 @@
   },
   "optimization_recommendations": [
     {
-      "type": "niche_focus",
+      "type": "retention_hook",
       "priority": "HIGH",
-      "title": "Priorizar contenido de 'Tech & AI'",
-      "description": "El nicho Tech & AI está superando el promedio de reproducciones con una retención superior. Mantén al menos el 60% de publicaciones en esta temática."
+      "title": "Potenciar categoría 'Tech & AI'",
+      "description": "Los videos de 'Tech & AI' lideran en retención. Continúa usando ganchos visuales con texto contrastado en los primeros 2 segundos."
     },
     {
-      "type": "hook_velocity",
-      "priority": "HIGH",
-      "title": "Optimización del Micro-Hook (0-2s)",
-      "description": "El gancho debe aparecer en los primeros 1.5 segundos con texto en dos líneas amarillo y blanco sobre fondo oscuro para maximizar la tasa de swipe-through."
-    },
-    {
-      "type": "cta_loop",
+      "type": "audio_optimization",
       "priority": "MEDIUM",
-      "title": "Llamado a la acción con bucle infinito",
-      "description": "Conectar la última frase del video de vuelta al inicio permite que el algoritmo registre 120%+ de tiempo de reproducción en YouTube Shorts."
+      "title": "Sonido original de comedia + Locución limpia",
+      "description": "La mezcla de audio del video original (35%) con la locución neural en español multiplica la tasa de finalización."
+    },
+    {
+      "type": "call_to_action",
+      "priority": "MEDIUM",
+      "title": "Disparadores de interacción y comentarios",
+      "description": "Remates que preguntan '¿Te ha pasado esto?' o 'Comenta del 1 al 10' disparan el engagement."
     }
   ]
 }

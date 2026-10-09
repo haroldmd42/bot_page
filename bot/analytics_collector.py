@@ -128,16 +128,254 @@ class AnalyticsCollector:
             logger.error(f"Error fetching real Facebook metrics for {video_id}: {e}")
             return {"views": 0, "likes": 0, "comments": 0, "shares": 0}
 
+    def sync_youtube_channel_videos(self, history: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+        """
+        Scans the authenticated YouTube channel for all uploaded videos via YouTube Data API v3.
+        Synchronizes live views, likes, and comments, and imports any videos missing from history.
+        """
+        if not (self.yt_client_id and self.yt_client_secret and self.yt_refresh_token):
+            logger.info("YouTube credentials not provided in environment. Skipping channel video discovery.")
+            return history
+
+        try:
+            creds = Credentials(
+                token=None,
+                refresh_token=self.yt_refresh_token,
+                token_uri="https://oauth2.googleapis.com/token",
+                client_id=self.yt_client_id,
+                client_secret=self.yt_client_secret
+            )
+            youtube = build("youtube", "v3", credentials=creds)
+
+            # 1. Fetch channel's uploads playlist
+            channel_res = youtube.channels().list(mine=True, part="contentDetails,snippet").execute()
+            items = channel_res.get("items", [])
+            if not items:
+                logger.warning("No YouTube channel found for current credentials.")
+                return history
+
+            channel = items[0]
+            uploads_playlist_id = channel.get("contentDetails", {}).get("relatedPlaylists", {}).get("uploads")
+            channel_title = channel.get("snippet", {}).get("title", "Mi Canal")
+            logger.info(f"Conectado a canal de YouTube: '{channel_title}' (Uploads: {uploads_playlist_id})")
+
+            if not uploads_playlist_id:
+                return history
+
+            # 2. Retrieve uploads from channel (up to 50 videos)
+            playlist_res = youtube.playlistItems().list(
+                playlistId=uploads_playlist_id,
+                part="snippet,contentDetails",
+                maxResults=50
+            ).execute()
+
+            yt_items = playlist_res.get("items", [])
+            logger.info(f"Encontrados {len(yt_items)} videos en el canal de YouTube.")
+
+            video_ids = [item["contentDetails"]["videoId"] for item in yt_items if item.get("contentDetails", {}).get("videoId")]
+            if not video_ids:
+                return history
+
+            # 3. Retrieve live statistics for all channel videos in batch
+            stats_res = youtube.videos().list(
+                id=",".join(video_ids),
+                part="snippet,statistics"
+            ).execute()
+
+            video_data_map = {}
+            for v in stats_res.get("items", []):
+                vid = v.get("id")
+                stats = v.get("statistics", {})
+                snippet = v.get("snippet", {})
+                video_data_map[vid] = {
+                    "video_id": vid,
+                    "title": snippet.get("title", ""),
+                    "description": snippet.get("description", ""),
+                    "published_at": snippet.get("publishedAt", datetime.now().isoformat() + "Z"),
+                    "views": int(stats.get("viewCount", 0)),
+                    "likes": int(stats.get("likeCount", 0)),
+                    "comments": int(stats.get("commentCount", 0)),
+                    "tags": snippet.get("tags", ["Shorts"])
+                }
+
+            # 4. Merge into history
+            existing_ids = {
+                item.get("youtube", {}).get("video_id")
+                for item in history
+                if item.get("youtube", {}).get("video_id")
+            }
+
+            for vid, vdata in video_data_map.items():
+                if vid in existing_ids:
+                    # Update live stats
+                    for item in history:
+                        if item.get("youtube", {}).get("video_id") == vid:
+                            item["title"] = vdata["title"]
+                            item["youtube"]["views"] = vdata["views"]
+                            item["youtube"]["likes"] = vdata["likes"]
+                            item["youtube"]["comments"] = vdata["comments"]
+                            item["youtube"]["status"] = "published"
+                            item["status"] = "published"
+                else:
+                    # New video found on channel -> Add to history
+                    logger.info(f"Importando video detectado en canal de YouTube: '{vdata['title']}' ({vid})")
+                    niche = "Humor & Comedia"
+                    tl = vdata["title"].lower()
+                    if any(w in tl for w in ["ia", "ai", "tech", "algoritmo"]):
+                        niche = "Tech & AI"
+                    elif any(w in tl for w in ["gato", "perro", "mascota"]):
+                        niche = "Animales & Mascotas"
+
+                    new_record = {
+                        "id": f"vid_yt_{vid}",
+                        "title": vdata["title"],
+                        "hook": vdata["title"],
+                        "niche": niche,
+                        "created_at": vdata["published_at"],
+                        "duration": 25.0,
+                        "status": "published",
+                        "tags": vdata["tags"],
+                        "youtube": {
+                            "video_id": vid,
+                            "url": f"https://youtube.com/shorts/{vid}",
+                            "status": "published",
+                            "views": vdata["views"],
+                            "likes": vdata["likes"],
+                            "comments": vdata["comments"]
+                        },
+                        "facebook": {
+                            "video_id": None,
+                            "url": None,
+                            "status": "pending_setup",
+                            "views": 0,
+                            "likes": 0,
+                            "comments": 0,
+                            "shares": 0
+                        },
+                        "metrics_summary": {
+                            "total_views": vdata["views"],
+                            "total_likes": vdata["likes"],
+                            "total_comments": vdata["comments"],
+                            "total_shares": 0,
+                            "engagement_rate": round(((vdata["likes"] + vdata["comments"]) / max(vdata["views"], 1)) * 100.0, 2)
+                        }
+                    }
+                    history.insert(0, new_record)
+
+            return history
+        except Exception as e:
+            logger.error(f"Error sincronizando videos del canal de YouTube: {e}")
+            return history
+
+    def sync_facebook_page_videos(self, history: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+        """
+        Discovers all videos/reels currently published on the Facebook Page via Meta Graph API.
+        """
+        if not self.fb_access_token or self.fb_access_token == "mock_pending":
+            return history
+
+        page_id = os.getenv("FB_PAGE_ID", "me")
+        try:
+            url = f"https://graph.facebook.com/v19.0/{page_id}/videos"
+            params = {
+                "fields": "id,title,description,created_time,views,likes.summary(true),comments.summary(true),sharedposts.summary(true)",
+                "access_token": self.fb_access_token,
+                "limit": 30
+            }
+            res = requests.get(url, params=params, timeout=20)
+            if res.status_code != 200:
+                logger.warning(f"Facebook Graph API notice: {res.status_code}")
+                return history
+
+            data = res.json()
+            fb_videos = data.get("data", [])
+            logger.info(f"Encontrados {len(fb_videos)} videos en la página de Facebook.")
+
+            existing_fb_ids = {
+                item.get("facebook", {}).get("video_id")
+                for item in history
+                if item.get("facebook", {}).get("video_id")
+            }
+
+            for fb_v in fb_videos:
+                fid = fb_v.get("id")
+                views = int(fb_v.get("views", 0))
+                likes = int(fb_v.get("likes", {}).get("summary", {}).get("total_count", 0))
+                comments = int(fb_v.get("comments", {}).get("summary", {}).get("total_count", 0))
+                shares = int(fb_v.get("sharedposts", {}).get("summary", {}).get("total_count", 0))
+                title = fb_v.get("title") or fb_v.get("description", "Facebook Reel")[:50]
+
+                if fid in existing_fb_ids:
+                    for item in history:
+                        if item.get("facebook", {}).get("video_id") == fid:
+                            item["facebook"]["views"] = views
+                            item["facebook"]["likes"] = likes
+                            item["facebook"]["comments"] = comments
+                            item["facebook"]["shares"] = shares
+                            item["facebook"]["status"] = "published"
+                else:
+                    # Match by title or insert
+                    matched = False
+                    for item in history:
+                        if item.get("title", "").strip().lower() in title.strip().lower() or title.strip().lower() in item.get("title", "").strip().lower():
+                            item["facebook"]["video_id"] = fid
+                            item["facebook"]["url"] = f"https://www.facebook.com/reel/{fid}"
+                            item["facebook"]["status"] = "published"
+                            item["facebook"]["views"] = views
+                            item["facebook"]["likes"] = likes
+                            item["facebook"]["comments"] = comments
+                            item["facebook"]["shares"] = shares
+                            matched = True
+                            break
+
+                    if not matched:
+                        history.insert(0, {
+                            "id": f"vid_fb_{fid}",
+                            "title": title,
+                            "hook": title,
+                            "niche": "Facebook Reels",
+                            "created_at": fb_v.get("created_time", datetime.now().isoformat() + "Z"),
+                            "duration": 20.0,
+                            "status": "published",
+                            "tags": ["Reels", "Viral"],
+                            "youtube": { "video_id": None, "url": None, "status": "pending_setup", "views": 0, "likes": 0, "comments": 0 },
+                            "facebook": {
+                                "video_id": fid,
+                                "url": f"https://www.facebook.com/reel/{fid}",
+                                "status": "published",
+                                "views": views,
+                                "likes": likes,
+                                "comments": comments,
+                                "shares": shares
+                            },
+                            "metrics_summary": {
+                                "total_views": views,
+                                "total_likes": likes,
+                                "total_comments": comments,
+                                "total_shares": shares,
+                                "engagement_rate": round(((likes + comments + shares) / max(views, 1)) * 100.0, 2)
+                            }
+                        })
+            return history
+        except Exception as e:
+            logger.error(f"Error sincronizando videos de Facebook: {e}")
+            return history
+
     def collect_and_sync(self) -> Dict[str, Any]:
         """
-        Gathers metrics across all videos, updates history,
-        and regenerates aggregated metrics dataset.
+        Gathers metrics across all videos, syncs channel uploads,
+        updates history, and regenerates aggregated metrics dataset.
         """
-        logger.info("Starting analytics collection routine...")
+        logger.info("Starting analytics collection and channel sync routine...")
         history = self._load_history()
         existing_metrics = self._load_metrics()
 
+        # 1. Sync live videos directly from YouTube channel and Facebook Page
+        history = self.sync_youtube_channel_videos(history)
+        history = self.sync_facebook_page_videos(history)
+
         tot_views = 0
+
         tot_likes = 0
         tot_comments = 0
         tot_shares = 0

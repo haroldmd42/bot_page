@@ -184,3 +184,61 @@ class GrowthOptimizer:
         """Single script generator."""
         batch = self.generate_batch_scripts(count=1, custom_topic=custom_topic)
         return batch[0]
+
+    def analyze_performance(self) -> Dict[str, Any]:
+        """
+        Analyzes historical video performance and returns data-backed growth recommendations.
+        """
+        if not self.history:
+            return {
+                "top_niche": "Fails Épicos & Instant Regret",
+                "recommendations": [
+                    {
+                        "type": "content_strategy",
+                        "priority": "HIGH",
+                        "title": "Publicar en horarios pico de comedia",
+                        "description": "Los shorts cómicos y fails tienen mayor retención entre 12:00 y 15:00 y de 19:00 a 22:00."
+                    }
+                ]
+            }
+
+        # Analyze top niches by views and engagement
+        niche_stats = {}
+        for item in self.history:
+            niche = item.get("niche", "Humor")
+            views = item.get("metrics_summary", {}).get("total_views", 0)
+            eng = item.get("metrics_summary", {}).get("engagement_rate", 0.0)
+            if niche not in niche_stats:
+                niche_stats[niche] = {"views": 0, "eng_sum": 0.0, "count": 0}
+            niche_stats[niche]["views"] += views
+            niche_stats[niche]["eng_sum"] += eng
+            niche_stats[niche]["count"] += 1
+
+        top_niche = max(niche_stats.items(), key=lambda x: (x[1]["views"], x[1]["eng_sum"] / max(x[1]["count"], 1)))[0]
+
+        recommendations = [
+            {
+                "type": "retention_hook",
+                "priority": "HIGH",
+                "title": f"Potenciar categoría '{top_niche}'",
+                "description": f"Los videos de '{top_niche}' lideran en retención. Continúa usando ganchos visuales con texto contrastado en los primeros 2 segundos."
+            },
+            {
+                "type": "audio_optimization",
+                "priority": "MEDIUM",
+                "title": "Sonido original de comedia + Locución limpia",
+                "description": "La mezcla de audio del video original (35%) con la locución neural en español multiplica la tasa de finalización."
+            },
+            {
+                "type": "call_to_action",
+                "priority": "MEDIUM",
+                "title": "Disparadores de interacción y comentarios",
+                "description": "Remates que preguntan '¿Te ha pasado esto?' o 'Comenta del 1 al 10' disparan el engagement."
+            }
+        ]
+
+        return {
+            "top_niche": top_niche,
+            "recommendations": recommendations
+        }
+

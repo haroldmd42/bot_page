@@ -91,10 +91,11 @@ export default function App() {
   const loadData = async () => {
     setLoading(true);
     try {
-      // Try to load dynamic data from public/data/ or root data/
+      // Force cache-busting so browser always loads fresh data from channels
+      const cacheBuster = `?t=${Date.now()}`;
       const [historyRes, metricsRes] = await Promise.allSettled([
-        fetch('./data/history.json').then((r) => (r.ok ? r.json() : Promise.reject(r))),
-        fetch('./data/metrics.json').then((r) => (r.ok ? r.json() : Promise.reject(r)))
+        fetch(`./data/history.json${cacheBuster}`).then((r) => (r.ok ? r.json() : Promise.reject(r))),
+        fetch(`./data/metrics.json${cacheBuster}`).then((r) => (r.ok ? r.json() : Promise.reject(r)))
       ]);
 
       if (historyRes.status === 'fulfilled') {

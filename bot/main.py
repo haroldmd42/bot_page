@@ -54,17 +54,20 @@ logger = logging.getLogger("AutonomousAgent")
 
 
 def sync_data_to_dashboard():
-    """Syncs data/history.json and data/metrics.json to dashboard/public/data/."""
+    """Syncs data/history.json and data/metrics.json to dashboard/public/data/ and dashboard/dist/data/."""
     src_data_dir = os.path.abspath("data")
-    dest_data_dir = os.path.abspath("dashboard/public/data")
-    os.makedirs(dest_data_dir, exist_ok=True)
+    dest_public_dir = os.path.abspath("dashboard/public/data")
+    dest_dist_dir = os.path.abspath("dashboard/dist/data")
+    os.makedirs(dest_public_dir, exist_ok=True)
+    os.makedirs(dest_dist_dir, exist_ok=True)
 
     for filename in ["history.json", "metrics.json"]:
         src_file = os.path.join(src_data_dir, filename)
-        dest_file = os.path.join(dest_data_dir, filename)
         if os.path.exists(src_file):
-            shutil.copy2(src_file, dest_file)
-            logger.info(f"Synced {filename} to dashboard public directory.")
+            shutil.copy2(src_file, os.path.join(dest_public_dir, filename))
+            shutil.copy2(src_file, os.path.join(dest_dist_dir, filename))
+            logger.info(f"Synced {filename} to dashboard public and dist directories.")
+
 
 
 def run_publish_flow(dry_run: bool = False, topic: str = None, count: int = 3) -> list:
