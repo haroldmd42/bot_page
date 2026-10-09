@@ -1,5 +1,130 @@
 [
   {
+    "id": "vid_funny_20261009_133855_3",
+    "title": "Mi última neurona intentando sobrevivir el día de hoy 🧠⚡",
+    "hook": "Mi última neurona intentando sobrevivir el día de hoy 🧠⚡",
+    "niche": "Fails Cotidianos",
+    "created_at": "2026-10-09T13:40:13.161590Z",
+    "duration": 20.0,
+    "status": "published",
+    "tags": [
+      "Shorts",
+      "Fails",
+      "Comedia",
+      "Risas",
+      "MalaSuerte",
+      "HumorViral",
+      "Relatable"
+    ],
+    "youtube": {
+      "video_id": "xd09JaGobvs",
+      "url": "https://youtube.com/shorts/xd09JaGobvs",
+      "status": "published",
+      "views": 0,
+      "likes": 0,
+      "comments": 0
+    },
+    "facebook": {
+      "video_id": null,
+      "url": null,
+      "status": "pending_setup",
+      "views": 0,
+      "likes": 0,
+      "comments": 0,
+      "shares": 0
+    },
+    "metrics_summary": {
+      "total_views": 0,
+      "total_likes": 0,
+      "total_comments": 0,
+      "total_shares": 0,
+      "engagement_rate": 0.0
+    }
+  },
+  {
+    "id": "vid_funny_20261009_133705_2",
+    "title": "La tranquilidad duró exactamente 2 segundos y medio ⏳💥",
+    "hook": "La tranquilidad duró exactamente 2 segundos y medio ⏳💥",
+    "niche": "Situaciones Absurdas",
+    "created_at": "2026-10-09T13:38:38.166869Z",
+    "duration": 20.0,
+    "status": "published",
+    "tags": [
+      "Shorts",
+      "ComediaViral",
+      "Memes",
+      "PlotTwist",
+      "HumorLatino",
+      "RisasMil"
+    ],
+    "youtube": {
+      "video_id": "k2GqJIZDxqg",
+      "url": "https://youtube.com/shorts/k2GqJIZDxqg",
+      "status": "published",
+      "views": 0,
+      "likes": 0,
+      "comments": 0
+    },
+    "facebook": {
+      "video_id": null,
+      "url": null,
+      "status": "pending_setup",
+      "views": 0,
+      "likes": 0,
+      "comments": 0,
+      "shares": 0
+    },
+    "metrics_summary": {
+      "total_views": 0,
+      "total_likes": 0,
+      "total_comments": 0,
+      "total_shares": 0,
+      "engagement_rate": 0.0
+    }
+  },
+  {
+    "id": "vid_funny_20261009_133542_1",
+    "title": "POV: Tu gato cuando te atrasas 3 minutos en servirle la comida 💀",
+    "hook": "POV: Tu gato cuando te atrasas 3 minutos en servirle la comida 💀",
+    "niche": "Animales & Mascotas",
+    "created_at": "2026-10-09T13:36:47.353402Z",
+    "duration": 20.0,
+    "status": "published",
+    "tags": [
+      "Shorts",
+      "Humor",
+      "AnimalesGraciosos",
+      "Gatos",
+      "Perros",
+      "Memes",
+      "Risas"
+    ],
+    "youtube": {
+      "video_id": "DcbcUn_4Pow",
+      "url": "https://youtube.com/shorts/DcbcUn_4Pow",
+      "status": "published",
+      "views": 0,
+      "likes": 0,
+      "comments": 0
+    },
+    "facebook": {
+      "video_id": null,
+      "url": null,
+      "status": "pending_setup",
+      "views": 0,
+      "likes": 0,
+      "comments": 0,
+      "shares": 0
+    },
+    "metrics_summary": {
+      "total_views": 0,
+      "total_likes": 0,
+      "total_comments": 0,
+      "total_shares": 0,
+      "engagement_rate": 0.0
+    }
+  },
+  {
     "id": "vid_funny_20261009_030027_3",
     "title": "El plot twist más inesperado que verás en todo tu día 😂",
     "hook": "El plot twist más inesperado que verás en todo tu día 😂",
