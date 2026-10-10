@@ -1,5 +1,113 @@
 [
   {
+    "id": "vid_yt_aFak6dMWBbc",
+    "title": "#Shorts​ #Humor​ #Comedia​ #Risas​ #Memes​ #Viral​",
+    "hook": "#Shorts​ #Humor​ #Comedia​ #Risas​ #Memes​ #Viral​",
+    "niche": "Tech & AI",
+    "created_at": "2026-10-10T13:44:11Z",
+    "duration": 25.0,
+    "status": "published",
+    "tags": [
+      "Shorts"
+    ],
+    "youtube": {
+      "video_id": "aFak6dMWBbc",
+      "url": "https://youtube.com/shorts/aFak6dMWBbc",
+      "status": "published",
+      "views": 352,
+      "likes": 5,
+      "comments": 0
+    },
+    "facebook": {
+      "video_id": null,
+      "url": null,
+      "status": "pending_setup",
+      "views": 0,
+      "likes": 0,
+      "comments": 0,
+      "shares": 0
+    },
+    "metrics_summary": {
+      "total_views": 352,
+      "total_likes": 5,
+      "total_comments": 0,
+      "total_shares": 0,
+      "engagement_rate": 1.42
+    }
+  },
+  {
+    "id": "vid_yt_6JjPDawnFKE",
+    "title": "#Shorts​ #Humor​ #Comedia​ #Risas​ #Memes​ #Viral​",
+    "hook": "#Shorts​ #Humor​ #Comedia​ #Risas​ #Memes​ #Viral​",
+    "niche": "Tech & AI",
+    "created_at": "2026-10-10T13:46:06Z",
+    "duration": 25.0,
+    "status": "published",
+    "tags": [
+      "Shorts"
+    ],
+    "youtube": {
+      "video_id": "6JjPDawnFKE",
+      "url": "https://youtube.com/shorts/6JjPDawnFKE",
+      "status": "published",
+      "views": 3,
+      "likes": 0,
+      "comments": 0
+    },
+    "facebook": {
+      "video_id": null,
+      "url": null,
+      "status": "pending_setup",
+      "views": 0,
+      "likes": 0,
+      "comments": 0,
+      "shares": 0
+    },
+    "metrics_summary": {
+      "total_views": 3,
+      "total_likes": 0,
+      "total_comments": 0,
+      "total_shares": 0,
+      "engagement_rate": 0.0
+    }
+  },
+  {
+    "id": "vid_yt_3ZCGI9XISdk",
+    "title": "TE HA PASADO? COMPARTE PARA MAS #Shorts​ #Humor​ #Comedia​ #Risas​ #Memes​ #Viral​",
+    "hook": "TE HA PASADO? COMPARTE PARA MAS #Shorts​ #Humor​ #Comedia​ #Risas​ #Memes​ #Viral​",
+    "niche": "Tech & AI",
+    "created_at": "2026-10-10T14:15:45Z",
+    "duration": 25.0,
+    "status": "published",
+    "tags": [
+      "Shorts"
+    ],
+    "youtube": {
+      "video_id": "3ZCGI9XISdk",
+      "url": "https://youtube.com/shorts/3ZCGI9XISdk",
+      "status": "published",
+      "views": 0,
+      "likes": 0,
+      "comments": 0
+    },
+    "facebook": {
+      "video_id": null,
+      "url": null,
+      "status": "pending_setup",
+      "views": 0,
+      "likes": 0,
+      "comments": 0,
+      "shares": 0
+    },
+    "metrics_summary": {
+      "total_views": 0,
+      "total_likes": 0,
+      "total_comments": 0,
+      "total_shares": 0,
+      "engagement_rate": 0.0
+    }
+  },
+  {
     "id": "vid_funny_20261009_191240_3",
     "title": "Prueba de que a los animales también se les apaga el cerebro 😂",
     "hook": "Prueba de que a los animales también se les apaga el cerebro 😂",
@@ -313,7 +421,7 @@
       "video_id": "DcbcUn_4Pow",
       "url": "https://youtube.com/shorts/DcbcUn_4Pow",
       "status": "published",
-      "views": 1244,
+      "views": 1249,
       "likes": 24,
       "comments": 1
     },
@@ -327,11 +435,11 @@
       "shares": 0
     },
     "metrics_summary": {
-      "total_views": 1244,
+      "total_views": 1249,
       "total_likes": 24,
       "total_comments": 1,
       "total_shares": 0,
-      "engagement_rate": 2.01
+      "engagement_rate": 2.0
     }
   },
   {
@@ -518,7 +626,7 @@
       "video_id": "-OPEhfdbD8I",
       "url": "https://youtube.com/shorts/-OPEhfdbD8I",
       "status": "published",
-      "views": 60,
+      "views": 61,
       "likes": 2,
       "comments": 2
     },
@@ -532,11 +640,11 @@
       "shares": 0
     },
     "metrics_summary": {
-      "total_views": 60,
+      "total_views": 61,
       "total_likes": 2,
       "total_comments": 2,
       "total_shares": 0,
-      "engagement_rate": 6.67
+      "engagement_rate": 6.56
     }
   }
 ]
