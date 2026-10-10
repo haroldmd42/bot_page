@@ -1,16 +1,16 @@
 {
-  "last_updated": "2026-10-10T17:02:21.664076Z",
+  "last_updated": "2026-10-10T18:11:56.458499Z",
   "overview": {
-    "total_videos": 16,
-    "total_views": 1714,
-    "total_likes": 33,
+    "total_videos": 19,
+    "total_views": 1717,
+    "total_likes": 34,
     "total_comments": 3,
     "total_shares": 0,
-    "average_engagement_rate": 2.1,
+    "average_engagement_rate": 2.15,
     "top_performing_niche": "Tech & AI",
     "youtube_shorts_monetization": {
       "target_views": 10000000,
-      "current_views": 1714,
+      "current_views": 1717,
       "percentage": 0.02,
       "estimated_cpm_usd": 0.08,
       "estimated_earnings_usd": 0.14
@@ -44,17 +44,17 @@
     },
     {
       "date": "2026-10-10",
-      "views": 1714,
-      "likes": 33,
+      "views": 1717,
+      "likes": 34,
       "comments": 3,
       "shares": 0,
-      "engagement_rate": 2.1,
-      "cumulative_views": 1714
+      "engagement_rate": 2.15,
+      "cumulative_views": 1717
     }
   ],
   "platform_breakdown": {
     "youtube": {
-      "views": 1714,
+      "views": 1717,
       "share_pct": 100.0
     },
     "facebook": {

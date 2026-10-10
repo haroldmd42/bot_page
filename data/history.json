@@ -1,7 +1,7 @@
 [
   {
     "id": "vid_funny_20261010_181047_3",
-    "title": "Cuando la gravedad decide arruinarte el día 💀",
+    "title": "Cuando la gravedad decide arruinarte el día 💀 #Shorts",
     "hook": "Cuando la gravedad decide arruinarte el día 💀",
     "niche": "Fails Épicos & Instant Regret",
     "created_at": "2026-10-10T18:11:27.722716Z",
@@ -45,7 +45,7 @@
   },
   {
     "id": "vid_funny_20261010_180956_2",
-    "title": "El karma instantáneo más rápido de la historia ⚡😂",
+    "title": "El karma instantáneo más rápido de la historia ⚡😂 #Shorts",
     "hook": "El karma instantáneo más rápido de la historia ⚡😂",
     "niche": "Karma Instantáneo & Risas",
     "created_at": "2026-10-10T18:10:30.597427Z",
@@ -88,7 +88,7 @@
   },
   {
     "id": "vid_funny_20261010_180904_1",
-    "title": "Mi mascota viviendo en su propia dimensión paralela 🛸😂",
+    "title": "Mi mascota viviendo en su propia dimensión paralela 🛸😂 #Shorts",
     "hook": "Mi mascota viviendo en su propia dimensión paralela 🛸😂",
     "niche": "Mascotas Caóticas & Bloopers",
     "created_at": "2026-10-10T18:09:39.158359Z",
@@ -216,8 +216,8 @@
       "video_id": "3ZCGI9XISdk",
       "url": "https://youtube.com/shorts/3ZCGI9XISdk",
       "status": "published",
-      "views": 0,
-      "likes": 0,
+      "views": 2,
+      "likes": 1,
       "comments": 0
     },
     "facebook": {
@@ -230,11 +230,11 @@
       "shares": 0
     },
     "metrics_summary": {
-      "total_views": 0,
-      "total_likes": 0,
+      "total_views": 2,
+      "total_likes": 1,
       "total_comments": 0,
       "total_shares": 0,
-      "engagement_rate": 0.0
+      "engagement_rate": 50.0
     }
   },
   {
@@ -756,7 +756,7 @@
       "video_id": "-OPEhfdbD8I",
       "url": "https://youtube.com/shorts/-OPEhfdbD8I",
       "status": "published",
-      "views": 61,
+      "views": 62,
       "likes": 2,
       "comments": 2
     },
@@ -770,11 +770,11 @@
       "shares": 0
     },
     "metrics_summary": {
-      "total_views": 61,
+      "total_views": 62,
       "total_likes": 2,
       "total_comments": 2,
       "total_shares": 0,
-      "engagement_rate": 6.56
+      "engagement_rate": 6.45
     }
   }
 ]
