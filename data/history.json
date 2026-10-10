@@ -313,9 +313,9 @@
       "video_id": "DcbcUn_4Pow",
       "url": "https://youtube.com/shorts/DcbcUn_4Pow",
       "status": "published",
-      "views": 820,
-      "likes": 23,
-      "comments": 0
+      "views": 1244,
+      "likes": 24,
+      "comments": 1
     },
     "facebook": {
       "video_id": null,
@@ -327,11 +327,11 @@
       "shares": 0
     },
     "metrics_summary": {
-      "total_views": 820,
-      "total_likes": 23,
-      "total_comments": 0,
+      "total_views": 1244,
+      "total_likes": 24,
+      "total_comments": 1,
       "total_shares": 0,
-      "engagement_rate": 2.8
+      "engagement_rate": 2.01
     }
   },
   {
