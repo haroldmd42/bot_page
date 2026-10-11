@@ -1,24 +1,21 @@
 name: Auto Publish (Meta Reels & YouTube Shorts)
 
 on:
-  schedule:
-    # Run daily at 14:00 UTC (9:00 AM EST)
-    - cron: '0 14 * * *'
-  workflow_dispatch:
-    inputs:
-      count:
-        description: 'Cantidad de videos diferentes a publicar (ej: 3)'
-        required: false
-        default: '3'
-      topic:
-        description: 'Tema personalizado para el video (opcional)'
-        required: false
-        default: ''
-      dry_run:
-        description: 'Simular sin subir a APIs reales (true / false)'
-        type: boolean
-        required: false
-        default: false
+ workflow_dispatch:
+inputs:
+count:
+description: 'Cantidad de videos diferentes a publicar (ej: 3)'
+required: false
+default: '3'
+topic:
+description: 'Tema personalizado para el video (opcional)'
+required: false
+default: ''
+ dry_run:
+ description: 'Simular sin subir a APIs reales (true / false)'
+  type: boolean
+ required: false
+ default: false
 
 permissions:
   contents: write
