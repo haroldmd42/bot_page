@@ -1,5 +1,77 @@
 [
   {
+    "id": "vid_yt_YPoRtUu-oIw",
+    "title": "#Shorts​ #Humor​ #Comedia​ #Risas​ #Memes​ #Viral​",
+    "hook": "#Shorts​ #Humor​ #Comedia​ #Risas​ #Memes​ #Viral​",
+    "niche": "Tech & AI",
+    "created_at": "2026-10-10T18:18:35Z",
+    "duration": 25.0,
+    "status": "published",
+    "tags": [
+      "Shorts"
+    ],
+    "youtube": {
+      "video_id": "YPoRtUu-oIw",
+      "url": "https://youtube.com/shorts/YPoRtUu-oIw",
+      "status": "published",
+      "views": 2,
+      "likes": 0,
+      "comments": 0
+    },
+    "facebook": {
+      "video_id": null,
+      "url": null,
+      "status": "pending_setup",
+      "views": 0,
+      "likes": 0,
+      "comments": 0,
+      "shares": 0
+    },
+    "metrics_summary": {
+      "total_views": 2,
+      "total_likes": 0,
+      "total_comments": 0,
+      "total_shares": 0,
+      "engagement_rate": 0.0
+    }
+  },
+  {
+    "id": "vid_yt_5e2HEQMlNnY",
+    "title": "jajajajajajajajajajajaja #humor #caídas #memes",
+    "hook": "jajajajajajajajajajajaja #humor #caídas #memes",
+    "niche": "Humor & Comedia",
+    "created_at": "2026-10-10T23:10:43Z",
+    "duration": 25.0,
+    "status": "published",
+    "tags": [
+      "Shorts"
+    ],
+    "youtube": {
+      "video_id": "5e2HEQMlNnY",
+      "url": "https://youtube.com/shorts/5e2HEQMlNnY",
+      "status": "published",
+      "views": 0,
+      "likes": 0,
+      "comments": 0
+    },
+    "facebook": {
+      "video_id": null,
+      "url": null,
+      "status": "pending_setup",
+      "views": 0,
+      "likes": 0,
+      "comments": 0,
+      "shares": 0
+    },
+    "metrics_summary": {
+      "total_views": 0,
+      "total_likes": 0,
+      "total_comments": 0,
+      "total_shares": 0,
+      "engagement_rate": 0.0
+    }
+  },
+  {
     "id": "vid_funny_20261010_181047_3",
     "title": "Cuando la gravedad decide arruinarte el día 💀 #Shorts",
     "hook": "Cuando la gravedad decide arruinarte el día 💀",
@@ -21,7 +93,7 @@
       "url": "https://youtube.com/shorts/DiYuPfDx1B4",
       "status": "published",
       "error": null,
-      "views": 0,
+      "views": 4,
       "likes": 0,
       "comments": 0
     },
@@ -36,7 +108,7 @@
       "shares": 0
     },
     "metrics_summary": {
-      "total_views": 0,
+      "total_views": 4,
       "total_likes": 0,
       "total_comments": 0,
       "total_shares": 0,
@@ -144,8 +216,8 @@
       "video_id": "aFak6dMWBbc",
       "url": "https://youtube.com/shorts/aFak6dMWBbc",
       "status": "published",
-      "views": 352,
-      "likes": 5,
+      "views": 357,
+      "likes": 6,
       "comments": 0
     },
     "facebook": {
@@ -158,11 +230,11 @@
       "shares": 0
     },
     "metrics_summary": {
-      "total_views": 352,
-      "total_likes": 5,
+      "total_views": 357,
+      "total_likes": 6,
       "total_comments": 0,
       "total_shares": 0,
-      "engagement_rate": 1.42
+      "engagement_rate": 1.68
     }
   },
   {
@@ -551,7 +623,7 @@
       "video_id": "DcbcUn_4Pow",
       "url": "https://youtube.com/shorts/DcbcUn_4Pow",
       "status": "published",
-      "views": 1249,
+      "views": 1252,
       "likes": 24,
       "comments": 1
     },
@@ -565,7 +637,7 @@
       "shares": 0
     },
     "metrics_summary": {
-      "total_views": 1249,
+      "total_views": 1252,
       "total_likes": 24,
       "total_comments": 1,
       "total_shares": 0,
@@ -756,7 +828,7 @@
       "video_id": "-OPEhfdbD8I",
       "url": "https://youtube.com/shorts/-OPEhfdbD8I",
       "status": "published",
-      "views": 62,
+      "views": 65,
       "likes": 2,
       "comments": 2
     },
@@ -770,11 +842,11 @@
       "shares": 0
     },
     "metrics_summary": {
-      "total_views": 62,
+      "total_views": 65,
       "total_likes": 2,
       "total_comments": 2,
       "total_shares": 0,
-      "engagement_rate": 6.45
+      "engagement_rate": 6.15
     }
   }
 ]
