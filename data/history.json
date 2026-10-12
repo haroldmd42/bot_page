@@ -144,7 +144,7 @@
       "video_id": "YPoRtUu-oIw",
       "url": "https://youtube.com/shorts/YPoRtUu-oIw",
       "status": "published",
-      "views": 2,
+      "views": 4,
       "likes": 0,
       "comments": 0
     },
@@ -158,7 +158,7 @@
       "shares": 0
     },
     "metrics_summary": {
-      "total_views": 2,
+      "total_views": 4,
       "total_likes": 0,
       "total_comments": 0,
       "total_shares": 0,
@@ -180,7 +180,7 @@
       "video_id": "5e2HEQMlNnY",
       "url": "https://youtube.com/shorts/5e2HEQMlNnY",
       "status": "published",
-      "views": 0,
+      "views": 2,
       "likes": 0,
       "comments": 0
     },
@@ -194,7 +194,7 @@
       "shares": 0
     },
     "metrics_summary": {
-      "total_views": 0,
+      "total_views": 2,
       "total_likes": 0,
       "total_comments": 0,
       "total_shares": 0,
@@ -223,7 +223,7 @@
       "url": "https://youtube.com/shorts/DiYuPfDx1B4",
       "status": "published",
       "error": null,
-      "views": 4,
+      "views": 6,
       "likes": 0,
       "comments": 0
     },
@@ -238,7 +238,7 @@
       "shares": 0
     },
     "metrics_summary": {
-      "total_views": 4,
+      "total_views": 6,
       "total_likes": 0,
       "total_comments": 0,
       "total_shares": 0,
@@ -346,7 +346,7 @@
       "video_id": "aFak6dMWBbc",
       "url": "https://youtube.com/shorts/aFak6dMWBbc",
       "status": "published",
-      "views": 357,
+      "views": 356,
       "likes": 6,
       "comments": 0
     },
@@ -360,11 +360,11 @@
       "shares": 0
     },
     "metrics_summary": {
-      "total_views": 357,
+      "total_views": 356,
       "total_likes": 6,
       "total_comments": 0,
       "total_shares": 0,
-      "engagement_rate": 1.68
+      "engagement_rate": 1.69
     }
   },
   {
@@ -753,7 +753,7 @@
       "video_id": "DcbcUn_4Pow",
       "url": "https://youtube.com/shorts/DcbcUn_4Pow",
       "status": "published",
-      "views": 1249,
+      "views": 1250,
       "likes": 24,
       "comments": 1
     },
@@ -767,7 +767,7 @@
       "shares": 0
     },
     "metrics_summary": {
-      "total_views": 1249,
+      "total_views": 1250,
       "total_likes": 24,
       "total_comments": 1,
       "total_shares": 0,
@@ -958,7 +958,7 @@
       "video_id": "-OPEhfdbD8I",
       "url": "https://youtube.com/shorts/-OPEhfdbD8I",
       "status": "published",
-      "views": 65,
+      "views": 66,
       "likes": 2,
       "comments": 2
     },
@@ -972,11 +972,11 @@
       "shares": 0
     },
     "metrics_summary": {
-      "total_views": 65,
+      "total_views": 66,
       "total_likes": 2,
       "total_comments": 2,
       "total_shares": 0,
-      "engagement_rate": 6.15
+      "engagement_rate": 6.06
     }
   }
 ]
