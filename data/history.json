@@ -1,5 +1,77 @@
 [
   {
+    "id": "vid_yt_PopGsebh_PQ",
+    "title": "Maleta de Cartón Versión 2",
+    "hook": "Maleta de Cartón Versión 2",
+    "niche": "Humor & Comedia",
+    "created_at": "2026-10-15T15:58:38Z",
+    "duration": 25.0,
+    "status": "published",
+    "tags": [
+      "Shorts"
+    ],
+    "youtube": {
+      "video_id": "PopGsebh_PQ",
+      "url": "https://youtube.com/shorts/PopGsebh_PQ",
+      "status": "published",
+      "views": 0,
+      "likes": 0,
+      "comments": 0
+    },
+    "facebook": {
+      "video_id": null,
+      "url": null,
+      "status": "pending_setup",
+      "views": 0,
+      "likes": 0,
+      "comments": 0,
+      "shares": 0
+    },
+    "metrics_summary": {
+      "total_views": 0,
+      "total_likes": 0,
+      "total_comments": 0,
+      "total_shares": 0,
+      "engagement_rate": 0.0
+    }
+  },
+  {
+    "id": "vid_yt_ag8qFC3vJqc",
+    "title": "Maleta de Cartón  #CorridosTumbados #MusicaDeIA #CorridosUrbanos #MusicaMexicana #Corridos2026",
+    "hook": "Maleta de Cartón  #CorridosTumbados #MusicaDeIA #CorridosUrbanos #MusicaMexicana #Corridos2026",
+    "niche": "Tech & AI",
+    "created_at": "2026-10-15T16:15:44Z",
+    "duration": 25.0,
+    "status": "published",
+    "tags": [
+      "Shorts"
+    ],
+    "youtube": {
+      "video_id": "ag8qFC3vJqc",
+      "url": "https://youtube.com/shorts/ag8qFC3vJqc",
+      "status": "published",
+      "views": 0,
+      "likes": 0,
+      "comments": 0
+    },
+    "facebook": {
+      "video_id": null,
+      "url": null,
+      "status": "pending_setup",
+      "views": 0,
+      "likes": 0,
+      "comments": 0,
+      "shares": 0
+    },
+    "metrics_summary": {
+      "total_views": 0,
+      "total_likes": 0,
+      "total_comments": 0,
+      "total_shares": 0,
+      "engagement_rate": 0.0
+    }
+  },
+  {
     "id": "vid_funny_20261011_183608_3",
     "title": "Cuando tu perro activa el modo turbo y fallan los frenos 🐶⚡ #Shorts",
     "hook": "Cuando tu perro activa el modo turbo y fallan los frenos 🐶⚡",
