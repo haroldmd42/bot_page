@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-10-14T16:40:57.417273Z",
+  "last_updated": "2026-10-15T03:29:43.346215Z",
   "overview": {
     "total_videos": 24,
     "total_views": 1718,
@@ -80,6 +80,15 @@
     },
     {
       "date": "2026-10-14",
+      "views": 1718,
+      "likes": 35,
+      "comments": 3,
+      "shares": 0,
+      "engagement_rate": 2.21,
+      "cumulative_views": 1718
+    },
+    {
+      "date": "2026-10-15",
       "views": 1718,
       "likes": 35,
       "comments": 3,
