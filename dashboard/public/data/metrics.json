@@ -1,5 +1,5 @@
 {
-  "last_updated": "2026-10-30T17:46:37.821655Z",
+  "last_updated": "2026-10-31T04:23:36.935642Z",
   "overview": {
     "total_videos": 26,
     "total_views": 1718,
@@ -24,15 +24,6 @@
     }
   },
   "growth_trends": [
-    {
-      "date": "2026-10-17",
-      "views": 1718,
-      "likes": 35,
-      "comments": 3,
-      "shares": 0,
-      "engagement_rate": 2.21,
-      "cumulative_views": 1718
-    },
     {
       "date": "2026-10-18",
       "views": 1718,
@@ -143,6 +134,15 @@
     },
     {
       "date": "2026-10-30",
+      "views": 1718,
+      "likes": 35,
+      "comments": 3,
+      "shares": 0,
+      "engagement_rate": 2.21,
+      "cumulative_views": 1718
+    },
+    {
+      "date": "2026-10-31",
       "views": 1718,
       "likes": 35,
       "comments": 3,
